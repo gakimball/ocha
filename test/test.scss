@@ -15,3 +15,14 @@
 @include expect(true to be 'true');
 @include expect(false to be 'false');
 @include expect(null to be 'null');
+
+@include expect(5 to be above 4);
+@include expect(5 to be above 6);
+@include expect(5 to be at least 5);
+
+@include expect(5 to be below 10);
+@include expect(5 to be below 2);
+@include expect(5 to be at most 5);
+
+@include expect(2 to be within (1, 2));
+@include expect(3 to be within (1, 2));
