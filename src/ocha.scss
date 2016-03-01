@@ -1,0 +1,18 @@
+@import 'util/slice';
+@import 'functions/language';
+
+@mixin expect($args) {
+  $value: nth($args, 1);
+  $args: -ocha-slice($args, 2);
+
+  $assertion: (
+    type: 'equal',
+    negative: false,
+  );
+
+  @each $arg in $args {
+    $assertion: call('-ocha-#{$arg}', $assertion);
+  }
+
+  @debug $assertion;
+}
