@@ -38,3 +38,6 @@
 
 @include expect('string' to contain 'str');
 @include expect((0, 1, 2) to contain 1);
+
+@include expect((0, 1, 2) to have length within (0, 3));
+@include expect((0, 1, 2) to have length at most 2);

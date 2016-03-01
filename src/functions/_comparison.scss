@@ -19,7 +19,7 @@
 }
 
 @function -ocha-above($assert, $floor) {
-  $value: map-get($assert, value);
+  $value: -ocha-comparison-value($assert);
   $result: if($value > $floor, true, false);
   $negative: map-get($assert, negative);
 
@@ -40,7 +40,7 @@
 }
 
 @function -ocha-least($assert, $floor) {
-  $value: map-get($assert, value);
+  $value: -ocha-comparison-value($assert);
   $result: if($value >= $floor, true, false);
   $negative: map-get($assert, negative);
 
@@ -61,7 +61,7 @@
 }
 
 @function -ocha-below($assert, $ceiling) {
-  $value: map-get($assert, value);
+  $value: -ocha-comparison-value($assert);
   $result: if($value < $ceiling, true, false);
   $negative: map-get($assert, negative);
 
@@ -82,7 +82,7 @@
 }
 
 @function -ocha-most($assert, $ceiling) {
-  $value: map-get($assert, value);
+  $value: -ocha-comparison-value($assert);
   $result: if($value <= $ceiling, true, false);
   $negative: map-get($assert, negative);
 
@@ -107,7 +107,7 @@
   $ceiling: nth($range, 2);
   $string: '#{$floor}..#{$ceiling}';
 
-  $value: map-get($assert, value);
+  $value: -ocha-comparison-value($assert);
   $result: if($value >= $floor and $value <= $ceiling, true, false);
   $negative: map-get($assert, negative);
 

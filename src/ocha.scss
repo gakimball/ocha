@@ -1,5 +1,6 @@
 @import 'util/slice';
 @import 'util/equal';
+@import 'util/comparison';
 @import 'functions/language';
 @import 'functions/not';
 @import 'functions/comparison';
@@ -27,6 +28,7 @@ $standalone: (
   $assertion: (
     value: $value,
     negative: false,
+    length: false,
   );
 
   @each $func in $functions {

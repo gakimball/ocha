@@ -1,3 +1,7 @@
+@function -ocha-length($assert) {
+  @return map-merge($assert, (length: true));
+}
+
 @function -ocha-lengthof($assert, $expected) {
   $value: map-get($assert, value);
   $actual: length($value);
