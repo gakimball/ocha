@@ -1,17 +1,25 @@
 @import 'util/slice';
 @import 'functions/language';
+@import 'functions/not';
+@import 'functions/equal';
 
 @mixin expect($args) {
   $value: nth($args, 1);
-  $args: -ocha-slice($args, 2);
+  $functions: -ocha-slice($args, 2, length($args) - 1);
+  $final: nth($args, length($args));
 
   $assertion: (
-    type: 'equal',
+    value: $value,
     negative: false,
   );
 
-  @each $arg in $args {
-    $assertion: call('-ocha-#{$arg}', $assertion);
+  @each $func in $functions {
+    @if index($functions, $func) == length($functions) {
+      $assertion: call('-ocha-#{$func}', $assertion, $final);
+    }
+    @else {
+      $assertion: call('-ocha-#{$func}', $assertion);
+    }
   }
 
   @debug $assertion;
