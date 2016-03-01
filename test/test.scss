@@ -26,3 +26,15 @@
 
 @include expect(2 to be within (1, 2));
 @include expect(3 to be within (1, 2));
+
+@include expect((0, 1, 2) to have lengthof 3);
+@include expect((0, 1, 2) to have lengthof 5);
+
+@include expect(() to be empty);
+@include expect((0) to be empty);
+
+@include expect('string' to have string 'str');
+@include expect('string' to have string 'strrrr');
+
+@include expect('string' to contain 'str');
+@include expect((0, 1, 2) to contain 1);

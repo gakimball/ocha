@@ -4,12 +4,14 @@
 @import 'functions/not';
 @import 'functions/comparison';
 @import 'functions/type';
+@import 'functions/inspection';
 
 $standalone: (
   'ok',
   'true',
   'false',
-  'null'
+  'null',
+  'empty',
 );
 
 @mixin expect($args) {
