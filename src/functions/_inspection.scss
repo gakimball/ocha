@@ -65,7 +65,11 @@
   @return $assert;
 }
 
-@function -ocha-contain($assert, $substr) {
+@function -ocha-contain($assert, $substr: null) {
+  @if $substr == null {
+    @return map-merge($assert, (only: false));
+  }
+
   $value: map-get($assert, value);
   $result: false;
   $negative: map-get($assert, negative);

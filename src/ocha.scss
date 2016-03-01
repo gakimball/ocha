@@ -6,6 +6,7 @@
 @import 'functions/comparison';
 @import 'functions/type';
 @import 'functions/inspection';
+@import 'functions/keys';
 
 $standalone: (
   'ok',
@@ -29,6 +30,8 @@ $standalone: (
     value: $value,
     negative: false,
     length: false,
+    all: true,
+    only: true,
   );
 
   @each $func in $functions {
