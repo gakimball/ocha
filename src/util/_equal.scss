@@ -1,0 +1,23 @@
+@function -ocha-check-equal($assert, $expected, $pass, $fail) {
+  $actual: map-get($assert, value);
+  $negative: map-get($assert, negative);
+
+  @if $actual == $expected {
+    @if not $negative {
+      @debug $pass;
+    }
+    @else {
+      @warn $fail;
+    }
+  }
+  @else {
+    @if $negative {
+      @debug $pass;
+    }
+    @else {
+      @warn $fail;
+    }
+  }
+
+  @return $assert;
+}
