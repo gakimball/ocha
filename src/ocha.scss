@@ -3,11 +3,24 @@
 @import 'functions/language';
 @import 'functions/not';
 @import 'functions/equal';
+@import 'functions/type';
+
+$standalone: (
+  'ok',
+  'true',
+  'false',
+  'null'
+);
 
 @mixin expect($args) {
   $value: nth($args, 1);
   $functions: -ocha-slice($args, 2, length($args) - 1);
   $final: nth($args, length($args));
+
+  @if index($standalone, $final) {
+    $functions: append($functions, $final);
+    $final: null;
+  }
 
   $assertion: (
     value: $value,

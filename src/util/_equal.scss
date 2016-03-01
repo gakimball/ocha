@@ -1,5 +1,4 @@
-@function -ocha-check-equal($assert, $expected, $pass, $fail) {
-  $actual: map-get($assert, value);
+@function -ocha-check-equal($actual, $expected, $assert, $pass, $fail) {
   $negative: map-get($assert, negative);
 
   @if $actual == $expected {

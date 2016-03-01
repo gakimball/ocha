@@ -4,3 +4,14 @@
 @include expect(2 to 'not' equal 4);
 @include expect(2 to equal 3);
 @include expect(2 to 'not' equal 2);
+
+@include expect(2 to be a number);
+@include expect(#fff to be a color);
+@include expect(#fff to 'not' be a color);
+
+@include expect(true to be ok);
+@include expect(false to 'not' be ok);
+
+@include expect(true to be 'true');
+@include expect(false to be 'false');
+@include expect(null to be 'null');
