@@ -53,3 +53,22 @@
     );
   }
 }
+
+@function -ocha-property($assert, $property) {
+  $map: map-get($assert, value);
+  $negative: map-get($assert, negative);
+  $result: map-has-key($map, $property);
+
+  @if not $negative {
+    @return -ocha-check-equal($result, true, $assert,
+      '#{$map} has property #{$property}',
+      'Expected #{$map} to have property #{$property}'
+    );
+  }
+  @else {
+    @return -ocha-check-equal($result, false, $assert,
+      '#{$map} does not have property #{$property}',
+      'Expected #{$map} to not have property #{$property}'
+    );
+  }
+}

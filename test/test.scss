@@ -50,3 +50,12 @@ $map: ( one: 'one', two: 'two', );
 @include expect($map to have any keys (one));
 @include expect($map to contain all keys (one));
 @include expect($map to contain all keys (three));
+
+@include expect(0.75 to be closeTo (1, 0.5));
+@include expect(10 to be closeTo (5, 2));
+
+@include expect(2 to be oneOf (1, 2, 3));
+@include expect('eggs' to be oneOf (1, 2, 3));
+
+@include expect($map to have property 'one');
+@include expect($map to have property 'three');

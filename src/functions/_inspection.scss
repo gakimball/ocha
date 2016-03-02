@@ -100,3 +100,28 @@
 @function -ocha-include($assert, $substr) {
   @return -ocha-contain($assert, $substr);
 }
+
+@function -ocha-oneOf($assert, $list) {
+  $value: map-get($assert, value);
+  $negative: map-get($assert, negative);
+  $result: false;
+
+  @each $item in $list {
+    @if $value == $item {
+      $result: true;
+    }
+  }
+
+  @if not $negative {
+    @return -ocha-check-equal($result, true, $assert,
+      '#{$value} is one of #{$list}',
+      'Expected #{$value} to be one of #{$list}'
+    );
+  }
+  @else {
+    @return -ocha-check-equal($result, false, $assert,
+      '#{$value} is not one of #{$list}',
+      'Expected #{$value} to not be one of #{$list}'
+    );
+  }
+}

@@ -126,3 +126,29 @@
 
   @return $assert;
 }
+
+@function -ocha-closeTo($assert, $options) {
+  $value: map-get($assert, value);
+  $negative: map-get($assert, negative);
+
+  $base: nth($options, 1);
+  $delta: nth($options, 2);
+
+  $floor: $base - $delta;
+  $ceiling: $base + $delta;
+
+  $result: if($value >= $floor and $value <= $ceiling, true, false);
+
+  @if not $negative {
+    @return -ocha-check-equal($result, true, $assert,
+      '#{$value} is within #{$delta} of #{$base}',
+      'Expected #{$value} to be within #{$delta} of #{$base}'
+    );
+  }
+  @else {
+    @return -ocha-check-equal($result, false, $assert,
+      '#{$value} is not within #{$delta} of #{$base}',
+      'Expected #{$value} to not be within #{$delta} of #{$base}'
+    );
+  }
+}
