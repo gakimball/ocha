@@ -125,3 +125,28 @@
     );
   }
 }
+
+@function -ocha-members($assert, $list) {
+  $value: map-get($assert, value);
+  $negative: map-get($assert, negative);
+  $result: true;
+
+  @each $item in $list {
+    @if index($value, $item) == null {
+      $result: false;
+    }
+  }
+
+  @if not $negative {
+    @return -ocha-check-equal($result, true, $assert,
+      '#{$value} has members #{$list}',
+      'Expected #{$value} to be have members #{$list}'
+    );
+  }
+  @else {
+    @return -ocha-check-equal($result, false, $assert,
+      '#{$value} does not have members #{$list}',
+      'Expected #{$value} to not have members #{$list}'
+    );
+  }
+}
