@@ -1,8 +1,11 @@
+@import 'util/string';
 @import 'util/slice';
 @import 'util/equal';
 @import 'util/comparison';
+@import 'util/str-split';
+@import 'util/parse-has-property';
 @import 'functions/language';
-@import 'functions/not';
+@import 'functions/flags';
 @import 'functions/comparison';
 @import 'functions/type';
 @import 'functions/inspection';
@@ -32,6 +35,7 @@ $standalone: (
     length: false,
     all: true,
     only: true,
+    deep: false,
   );
 
   @each $func in $functions {

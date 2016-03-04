@@ -1,0 +1,80 @@
+@function -ocha-has-deep-property($items, $input, $value: null) {
+  $keys: if(type-of($input) == 'string', -ocha-str-split($input, '.'), $input);
+  $key: nth($keys, 1);
+
+  // $items is a map
+  @if type-of($items) == 'map' {
+    // Check if the map has the key given
+    @if map-has-key($items, $key) {
+      // If the length of $keys is 1, then we're on the last item in the chain, so we should check for a matching value
+      @if length($keys) == 1 {
+        @if $value != null {
+          @return map-get($items, $key) == $value;
+        }
+        // ...unless no value to check was passed, in which case we're just verifying that the key exists
+        @else {
+          @return true;
+        }
+      }
+      // If there are still more keys to check, we have to go deeper
+      @else {
+        $value-type: type-of(map-get($items, $key));
+
+        // The nested value to check must be a map or list
+        @if $value-type == 'map' or $value-type == 'list' {
+          $next-items: map-get($items, $key);
+          $next-input: -ocha-slice($keys, 2);
+          @return -ocha-has-deep-property($next-items, $next-input, $value);
+        }
+        // If it's not, return false
+        @else {
+          @return false;
+        }
+      }
+    }
+    @else {
+      @return false;
+    }
+  }
+  // $items is a list
+  @else if type-of($items) == 'list' {
+    $i: to-number($key);
+
+    // Check if the index exists in the list
+    @if $i <= length($items) {
+      // If the length of $keys is 1, then we're on the last item in the chain, so we should check for a matching value
+      @if length($keys) == 1 {
+        @if $value != null {
+          @return nth($items, $i) == $value;
+        }
+        // ...unless no value to check was passed, in which case we're just verifying that the key exists
+        @else {
+          @return true;
+        }
+      }
+      // If there are still more keys to check, we have to go deeper
+      @else {
+        $value-type: type-of(nth($items, $i));
+
+        // The nested value to check must be a map or list
+        @if $value-type == 'map' or $value-type == 'list' {
+          $next-items: nth($items, $i);
+          $next-input: -ocha-slice($keys, 2);
+          @return -ocha-has-deep-property($next-items, $next-input, $value);
+        }
+        // If it's not, return false
+        @else {
+          @return false;
+        }
+      }
+    }
+    // If it's not there, return false
+    @else {
+      @return false;
+    }
+  }
+  // $items is neither
+  @else {
+    @error 'expect(): property can only be used with maps and lists.';
+  }
+}

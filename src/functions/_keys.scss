@@ -55,6 +55,10 @@
 }
 
 @function -ocha-property($assert, $property) {
+  @if map-get($assert, deep) {
+    @return -ocha-deep-property($assert, $property);
+  }
+
   $map: map-get($assert, value);
   $negative: map-get($assert, negative);
   $result: null;
@@ -86,6 +90,41 @@
     @return -ocha-check-equal($result, false, $assert,
       '#{$map} does not have property #{$message}',
       'Expected #{$map} to not have property #{$message}'
+    );
+  }
+}
+
+@function -ocha-deep-property($assert, $property) {
+  $item: map-get($assert, value);
+  $negative: map-get($assert, negative);
+  $key: null;
+  $value: null;
+  $message: '';
+
+  @if type-of($property) == 'list' {
+    $key: nth($property, 1);
+    $value: nth($property, 2);
+    $message: '#{$key} with value #{$value}';
+  }
+  @else {
+    $key: $property;
+    $value: null;
+    $message: '#{$key}';
+  }
+
+  $result: -ocha-has-deep-property($item, $key, $value);
+  $item: inspect($item);
+
+  @if not $negative {
+    @return -ocha-check-equal($result, true, $assert,
+      '#{$item} has deep property #{$message}',
+      'Expected #{$item} to have deep property #{$message}'
+    );
+  }
+  @else {
+    @return -ocha-check-equal($result, false, $assert,
+      '#{$item} does not have deep property #{$message}',
+      'Expected #{$item} to not have deep property #{$message}'
     );
   }
 }
