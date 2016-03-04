@@ -1,67 +1,67 @@
 @import '../src/ocha';
 
-// @include expect(2 to equal 2);
-// @include expect(2 to 'not' equal 4);
-// @include expect(2 to equal 3);
-// @include expect(2 to 'not' equal 2);
-//
-// @include expect(2 to be a number);
-// @include expect(#fff to be a color);
-// @include expect(#fff to 'not' be a color);
-//
-// @include expect(true to be ok);
-// @include expect(false to 'not' be ok);
-//
-// @include expect(true to be 'true');
-// @include expect(false to be 'false');
-// @include expect(null to be 'null');
-//
-// @include expect(5 to be above 4);
-// @include expect(5 to be above 6);
-// @include expect(5 to be at least 5);
-//
-// @include expect(5 to be below 10);
-// @include expect(5 to be below 2);
-// @include expect(5 to be at most 5);
-//
-// @include expect(2 to be within (1, 2));
-// @include expect(3 to be within (1, 2));
-//
-// @include expect((0, 1, 2) to have lengthof 3);
-// @include expect((0, 1, 2) to have lengthof 5);
-//
-// @include expect(() to be empty);
-// @include expect((0) to be empty);
-//
-// @include expect('string' to have string 'str');
-// @include expect('string' to have string 'strrrr');
-//
-// @include expect('string' to contain 'str');
-// @include expect((0, 1, 2) to contain 1);
-//
-// @include expect((0, 1, 2) to have length within (0, 3));
-// @include expect((0, 1, 2) to have length at most 2);
+@include expect(2 to equal 2);
+@include expect(2 to 'not' equal 4);
+@include expect(2 to equal 3);
+@include expect(2 to 'not' equal 2);
+
+@include expect(2 to be a number);
+@include expect(#fff to be a color);
+@include expect(#fff to 'not' be a color);
+
+@include expect(true to be ok);
+@include expect(false to 'not' be ok);
+
+@include expect(true to be 'true');
+@include expect(false to be 'false');
+@include expect(null to be 'null');
+
+@include expect(5 to be above 4);
+@include expect(5 to be above 6);
+@include expect(5 to be at least 5);
+
+@include expect(5 to be below 10);
+@include expect(5 to be below 2);
+@include expect(5 to be at most 5);
+
+@include expect(2 to be within (1, 2));
+@include expect(3 to be within (1, 2));
+
+@include expect((0, 1, 2) to have lengthof 3);
+@include expect((0, 1, 2) to have lengthof 5);
+
+@include expect(() to be empty);
+@include expect((0) to be empty);
+
+@include expect('string' to have string 'str');
+@include expect('string' to have string 'strrrr');
+
+@include expect('string' to contain 'str');
+@include expect((0, 1, 2) to contain 1);
+
+@include expect((0, 1, 2) to have length within (0, 3));
+@include expect((0, 1, 2) to have length at most 2);
 
 $map: ( one: 'one', two: 'two', three: ( cat: 'cat' ), );
 
-// @include expect($map to have keys (one, two));
-// @include expect($map to have keys (one));
-//
-// @include expect($map to have any keys (one));
-// @include expect($map to contain all keys (one));
-// @include expect($map to contain all keys (three));
-//
-// @include expect(0.75 to be closeTo (1, 0.5));
-// @include expect(10 to be closeTo (5, 2));
-//
-// @include expect(2 to be oneOf (1, 2, 3));
-// @include expect('eggs' to be oneOf (1, 2, 3));
-//
-// @include expect($map to have property 'one');
-// @include expect($map to have property ('one', 'one'));
+@include expect($map to have keys (one, two));
+@include expect($map to have keys (one));
 
-// @include expect((0, 1) to have members (1));
-// @include expect((0, 1, 3) to have members (1, 4));
+@include expect($map to have any keys (one));
+@include expect($map to contain all keys (one));
+@include expect($map to contain all keys (three));
+
+@include expect(0.75 to be closeTo (1, 0.5));
+@include expect(10 to be closeTo (5, 2));
+
+@include expect(2 to be oneOf (1, 2, 3));
+@include expect('eggs' to be oneOf (1, 2, 3));
+
+@include expect($map to have property 'one');
+@include expect($map to have property ('one', 'one'));
+
+@include expect((0, 1) to have members (1));
+@include expect((0, 1, 3) to have members (1, 4));
 
 $list: (0, 1, $map);
 

@@ -1,3 +1,38 @@
+@function -ocha-deep-property($assert, $property) {
+  $item: map-get($assert, value);
+  $negative: map-get($assert, negative);
+  $key: null;
+  $value: null;
+  $message: '';
+
+  @if type-of($property) == 'list' {
+    $key: nth($property, 1);
+    $value: nth($property, 2);
+    $message: '#{$key} with value #{$value}';
+  }
+  @else {
+    $key: $property;
+    $value: null;
+    $message: '#{$key}';
+  }
+
+  $result: -ocha-has-deep-property($item, $key, $value);
+  $item: inspect($item);
+
+  @if not $negative {
+    @return -ocha-check-equal($result, true, $assert,
+      '#{$item} has deep property #{$message}',
+      'Expected #{$item} to have deep property #{$message}'
+    );
+  }
+  @else {
+    @return -ocha-check-equal($result, false, $assert,
+      '#{$item} does not have deep property #{$message}',
+      'Expected #{$item} to not have deep property #{$message}'
+    );
+  }
+}
+
 @function -ocha-has-deep-property($items, $input, $value: null) {
   $keys: if(type-of($input) == 'string', -ocha-str-split($input, '.'), $input);
   $key: nth($keys, 1);
@@ -23,7 +58,7 @@
         // The nested value to check must be a map or list
         @if $value-type == 'map' or $value-type == 'list' {
           $next-items: map-get($items, $key);
-          $next-input: -ocha-slice($keys, 2);
+          $next-input: -ocha-str-slice($keys, 2);
           @return -ocha-has-deep-property($next-items, $next-input, $value);
         }
         // If it's not, return false
@@ -59,7 +94,7 @@
         // The nested value to check must be a map or list
         @if $value-type == 'map' or $value-type == 'list' {
           $next-items: nth($items, $i);
-          $next-input: -ocha-slice($keys, 2);
+          $next-input: -ocha-str-slice($keys, 2);
           @return -ocha-has-deep-property($next-items, $next-input, $value);
         }
         // If it's not, return false

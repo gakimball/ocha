@@ -1,15 +1,13 @@
-@import 'util/string';
-@import 'util/slice';
-@import 'util/equal';
 @import 'util/comparison';
-@import 'util/str-split';
-@import 'util/parse-has-property';
-@import 'functions/language';
-@import 'functions/flags';
+@import 'util/deep-property';
+@import 'util/equal';
+@import 'util/string';
 @import 'functions/comparison';
-@import 'functions/type';
+@import 'functions/flags';
 @import 'functions/inspection';
 @import 'functions/keys';
+@import 'functions/language';
+@import 'functions/type';
 
 $standalone: (
   'ok',
@@ -21,7 +19,7 @@ $standalone: (
 
 @mixin expect($args) {
   $value: nth($args, 1);
-  $functions: -ocha-slice($args, 2, length($args) - 1);
+  $functions: -ocha-str-slice($args, 2, length($args) - 1);
   $final: nth($args, length($args));
 
   @if index($standalone, $final) {
