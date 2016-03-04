@@ -128,3 +128,25 @@
     );
   }
 }
+
+@function -ocha-eql($assert, $expected) {
+  $value: map-get($assert, value);
+  $negative: map-get($assert, negative);
+  $result: if($value == $expected, true, false);
+
+  $value: inspect($value);
+  $expected: inspect($expected);
+
+  @if not $negative {
+    @return -ocha-check-equal($result, true, $assert,
+      '#{$value} deep equals #{$expected}',
+      'Expected #{$value} to deep equal #{$expected}'
+    );
+  }
+  @else {
+    @return -ocha-check-equal($result, false, $assert,
+      '#{$value} does not deep equal #{$expected}',
+      'Expected #{$value} to not deep equal #{$expected}'
+    );
+  }
+}

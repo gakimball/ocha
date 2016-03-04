@@ -1,4 +1,8 @@
 @function -ocha-equal($assert, $expected) {
+  @if map-get($assert, deep) {
+    @return -ocha-eql($assert, $expected);
+  }
+
   $actual: map-get($assert, value);
   $negative: map-get($assert, negative);
 

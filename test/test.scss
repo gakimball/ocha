@@ -67,4 +67,4 @@ $list: (0, 1, $map);
 
 // @debug -ocha-has-deep-property($list, '3.three.cat');
 
-@include expect($list to have deep property ('3.three.cat', 'cat'));
+@include expect($list to eql $list);
