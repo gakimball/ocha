@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/gakimball/ocha#readme",
   "devDependencies": {
+    "chai": "^3.5.0",
     "eyeglass": "^0.8.3",
     "mocha": "^2.4.5",
     "node-sass": "^3.4.2"

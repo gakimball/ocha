@@ -5,21 +5,27 @@
 
   $actual: map-get($assert, value);
   $negative: map-get($assert, negative);
+  $test: if($negative, 'notEqual', 'equal');
+  $result: null;
+  $message: '';
 
   @if not $negative {
-    @return -ocha-check-equal($actual, $expected, $assert,
-      '#{$actual} equals #{$expected}',
-      'Expected #{$actual} to not equal #{$expected}'
-    );
+    $result: if($actual == $expected, true, false);
+    $message: 'Expected #{$actual} to equal #{$expected}';
   }
   @else {
-    @return -ocha-check-equal($actual, $expected, $assert,
-      '#{$actual} does not equal #{$expected}',
-      'Expected #{$actual} to equal #{$expected}'
-    );
+    $result: if($actual != $expected, true, false);
+    $message: 'Expected #{$actual} to not equal #{$expected}';
   }
 
-  @return $assert;
+  @return map-merge($assert, (result: (
+    test: $test,
+    passed: $result,
+    assertion: $message,
+    expected: $expected,
+    returned: $actual,
+    type: null,
+  )));
 }
 
 @function -ocha-above($assert, $floor) {

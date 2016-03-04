@@ -30,16 +30,6 @@ $standalone: (
     $final: null;
   }
 
-  /*
-    result: (
-      passed: false,
-      assertion: 'Expect 2 to equal 4',
-      expected: 2,
-      returned: 4,
-      type: null,
-      type: 'length',
-    )
-  */
   $assertion: (
     value: $value,
     negative: false,
@@ -47,8 +37,10 @@ $standalone: (
     all: true,
     only: true,
     deep: false,
+    result: (),
   );
 
+  // Run assertion functions
   @each $func in $functions {
     @if index($functions, $func) == length($functions) {
       $assertion: call('-ocha-#{$func}', $assertion, $final);
@@ -58,4 +50,6 @@ $standalone: (
     }
   }
 
+  // Output the final result of the assertion to True
+  @include -ocha-true-assert(map-get($assertion, result));
 }

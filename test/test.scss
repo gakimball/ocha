@@ -2,20 +2,7 @@
 
 @include test-module('Test') {
   @include test('Thing') {
-    // @include assert-unequal(2, 2, 'They are equal');
-
-    $result: (
-      test: 'equal',
-      passed: false,
-      assertion: 'Expected 2 to equal 4',
-      expected: 2,
-      returned: (0, 1),
-      type: null,
-    );
-
-    @include -ocha-true-assert($result);
-
-    // @include -ocha-true-assert(true, )
+    @include expect(2 to equal 2);
   }
 }
 
