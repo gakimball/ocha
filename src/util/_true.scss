@@ -1,0 +1,28 @@
+@mixin -ocha-true-assert($result) {
+  $passed: if(map-get($result, passed), PASS, FAIL);
+  $expected-type: null;
+  $returned-type: null;
+
+  @if map-get($result, type) != null {
+    $expected-type: map-get($result, type);
+    $returned-type: $expected-type;
+  }
+  @else {
+    $expected-type: type-of(map-get($result, expected));
+    $returned-type: type-of(map-get($result, returned));
+  }
+
+  @include _true-assert-start(map-get($result, assertion));
+
+  .assert-#{map-get($result, test)} {
+    -result: $passed;
+    -description: map-get($result, assertion);
+
+    @if $passed == FAIL {
+      -expected--#{$expected-type}: map-get($result, expected);
+      -returned--#{$returned-type}: map-get($result, returned);
+    }
+  }
+
+  @include _true-assert-stop($passed);
+}

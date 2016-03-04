@@ -1,7 +1,10 @@
+@import 'true';
+
 @import 'util/comparison';
 @import 'util/deep-property';
 @import 'util/equal';
 @import 'util/string';
+@import 'util/true';
 @import 'functions/comparison';
 @import 'functions/flags';
 @import 'functions/inspection';
@@ -27,6 +30,16 @@ $standalone: (
     $final: null;
   }
 
+  /*
+    result: (
+      passed: false,
+      assertion: 'Expect 2 to equal 4',
+      expected: 2,
+      returned: 4,
+      type: null,
+      type: 'length',
+    )
+  */
   $assertion: (
     value: $value,
     negative: false,
