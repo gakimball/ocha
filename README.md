@@ -36,7 +36,9 @@ These functions don't do anything&mdash;they just make your assertion more reada
 - `of`
 - `same`
 
-### Negation
+### Flags
+
+#### not
 
 Throw the word `not` in an assertion to check for the opposite result.
 
@@ -44,6 +46,21 @@ Note that, since `not` is a special keyword in Sass, you have to put it in quote
 
 ```scss
 @include expect(5 to 'not' equal 6);
+```
+
+#### deep
+
+Pair with `equal` or `property` to fully check the contents of a map.
+
+```scss
+$map: (
+  cats: ( dogs: true ),
+  kittens: false,
+);
+
+@include expect($map to have deep property 'cats.dogs');
+
+@include expect($map to deep equal $map);
 ```
 
 ### Comparison
@@ -55,6 +72,30 @@ Check if a value equals `$value`.
 ```scss
 @include expect(5 to equal 5);
 @include expect('string' to equal 'string');
+```
+
+Add the `deep` flag to check if the contents of an entire map are identical.
+
+```scss
+$map: (
+  cats: ( dogs: true ),
+  kittens: false,
+);
+
+@include expect($map to deep equal $map);
+```
+
+#### eql($map)
+
+Check if two maps are identical in structure. This is the same as `deep equal`.
+
+```scss
+$map: (
+  cats: ( dogs: true ),
+  kittens: false,
+);
+
+@include expect($map to eql $map);
 ```
 
 #### above($floor)
@@ -97,6 +138,24 @@ Check if a value is within the range of `$floor` and `$ceiling` (including those
 
 ```scss
 @include expect(5 to be within (0, 10));
+```
+
+#### closeTo($base, $range)
+
+Check if a value is equal to `$base`, plus or minus `$range`.
+
+```scss
+// Can be between 2 and 8
+@include expect(7 to be closeTo (5, 3));
+```
+
+#### oneOf($list)
+
+Check if a value is one of the items in `$list`.
+
+```scss
+@include expect(1 to be oneOf (1, 2, 3));
+@include expect(5 to be oneOf (1, 2, 3));
 ```
 
 ### Type Comparison
@@ -205,6 +264,40 @@ Check if a string contains `$needle`, or check if a list contains `$needle`.
 @include expect((one, two) to include 'one');
 ```
 
+#### property($property, $value)
+
+Check if a map contains property `$property`, or if a list has an item at the index of `$property`. Optionally, you can check if that property also contains `$value`.
+
+```scss
+$map: (
+  'kittens': 10,
+  'puppies': 6,
+  'otters': 4,
+);
+
+@include expect($map to have property 'kittens');
+@include expect($map to have property ('puppies', 6));
+```
+
+Add the `deep` flag to check for a deep property within a map or list. Each map key or list index is separated by a dot.
+
+```scss
+$map: (
+  'kittens': 10,
+  'puppies': 6,
+  'otters': 4,
+  'other': (
+    'bunnies': 1,
+    'ocelots': 2,
+    'evenMore': ('birds', 'penguins', 'turkeys'),
+  ),
+);
+
+@include expect($map to have property 'other.bunnies');
+@include expect($map to have property ('other.bunnies', 2));
+@include expect($map to have property ('other.evenMore.2', 'penguins'));
+```
+
 #### keys($keys)
 
 If you call `keys` by itself, check if a map contains *every key* within `$keys` and *no other keys*.
@@ -238,4 +331,16 @@ $map: (
 );
 
 @include expect($map to have keys (one, two, three, four));
+```
+
+#### members($list)
+
+Check if the input list is a superset of `$list`, or that the input list is identical to `$list`;
+
+```scss
+$list: (0, 1, 2,);
+
+@include expect($list to have members (0, 1,)); // => true
+@include expect($list to have members (0, 1, 2,)); // => true
+@include expect($list to have members (0, 3, 5,)); // => false
 ```
