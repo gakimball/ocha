@@ -1,7 +1,7 @@
 @import '../node_modules/sass-true/sass/true';
 @import '../src/ocha';
 
-@include test-module('Equals') {
+@include test-module('Equal') {
   @include test('Passes if two numbers are equal') {
     @include expect(2 to equal 2);
   }
@@ -10,7 +10,7 @@
   }
 }
 
-@include test-module('Not Equals') {
+@include test-module('Not Equal') {
   @include test('Passes if two numbers are not equal') {
     @include expect(2 to 'not' equal 2);
   }

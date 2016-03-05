@@ -3,19 +3,18 @@
     @return -ocha-eql($assert, $expected);
   }
 
-  $actual: map-get($assert, value);
+  $returned: map-get($assert, value);
   $negative: map-get($assert, negative);
   $test: if($negative, 'notEqual', 'equal');
-  $result: null;
+  $result: if($returned == $expected, true, false);
   $message: '';
 
   @if not $negative {
-    $result: if($actual == $expected, true, false);
-    $message: 'Expected #{$actual} to equal #{$expected}';
+    $message: 'Expected #{$returned} to equal #{$expected}';
   }
   @else {
-    $result: if($actual != $expected, true, false);
-    $message: 'Expected #{$actual} to not equal #{$expected}';
+    $result: if($result, false, true);
+    $message: 'Expected #{$returned} to not equal #{$expected}';
   }
 
   @return map-merge($assert, (result: (
@@ -23,142 +22,163 @@
     passed: $result,
     assertion: $message,
     expected: $expected,
-    returned: $actual,
+    returned: $returned,
     type: null,
   )));
 }
 
 @function -ocha-above($assert, $floor) {
-  $value: -ocha-comparison-value($assert);
-  $result: if($value > $floor, true, false);
+  $returned: -ocha-comparison-value($assert);
   $negative: map-get($assert, negative);
+  $test: if($negative, 'notAbove', 'above');
+  $result: if($returned > $floor, true, false);
+  $message: '';
 
   @if not $negative {
-    @return -ocha-check-equal($result, true, $assert,
-      '#{$value} is greater than #{$floor}',
-      'Expected #{$value} to be greater than #{$floor}'
-    );
+    $message: 'Expected #{$returned} to be greater than #{$floor}';
   }
   @else {
-    @return -ocha-check-equal($result, false, $assert,
-      '#{$value} is not greater than #{$floor}',
-      'Expected #{$value} to not be greater than #{$floor}'
-    );
+    $result: if($result, false, true);
+    $message: 'Expected #{$returned} to not be greater than #{$floor}';
   }
 
-  @return $assert;
+  @return map-merge($assert, (result: (
+    test: $test,
+    passed: $result,
+    assertion: $message,
+    expected: '> #{$floor}',
+    returned: $returned,
+    type: 'number',
+  )));
 }
 
 @function -ocha-least($assert, $floor) {
-  $value: -ocha-comparison-value($assert);
-  $result: if($value >= $floor, true, false);
+  $returned: -ocha-comparison-value($assert);
   $negative: map-get($assert, negative);
+  $test: if($negative, 'notAtLeast', 'atLeast');
+  $result: if($returned >= $floor, true, false);
+  $message: '';
 
   @if not $negative {
-    @return -ocha-check-equal($result, true, $assert,
-      '#{$value} is at least #{$floor}',
-      'Expected #{$value} to be at least #{$floor}'
-    );
+    $message: 'Expected #{$returned} to be at least #{$floor}';
   }
   @else {
-    @return -ocha-check-equal($result, false, $assert,
-      '#{$value} is not at least #{$floor}',
-      'Expected #{$value} to not be at least #{$floor}'
-    );
+    $result: if($result, false, true);
+    $message: 'Expected #{$returned} to not be at least #{$floor}';
   }
 
-  @return $assert;
+  @return map-merge($assert, (result: (
+    test: $test,
+    passed: $result,
+    assertion: $message,
+    expected: '>= #{$floor}',
+    returned: $returned,
+    type: 'number',
+  )));
 }
 
 @function -ocha-below($assert, $ceiling) {
-  $value: -ocha-comparison-value($assert);
-  $result: if($value < $ceiling, true, false);
+  $returned: -ocha-comparison-value($assert);
   $negative: map-get($assert, negative);
+  $test: if($negative, 'notBelow', 'below');
+  $result: if($returned < $ceiling, true, false);
+  $message: '';
 
   @if not $negative {
-    @return -ocha-check-equal($result, true, $assert,
-      '#{$value} is less than #{$ceiling}',
-      'Expected #{$value} to be less than #{$ceiling}'
-    );
+    $message: 'Expected #{$returned} to be below #{$ceiling}';
   }
   @else {
-    @return -ocha-check-equal($result, false, $assert,
-      '#{$value} is not less than #{$ceiling}',
-      'Expected #{$value} to not be less than #{$ceiling}'
-    );
+    $result: if($result, false, true);
+    $message: 'Expected #{$returned} to not be below #{$ceiling}';
   }
 
-  @return $assert;
+  @return map-merge($assert, (result: (
+    test: $test,
+    passed: $result,
+    assertion: $message,
+    expected: '< #{$ceiling}',
+    returned: $returned,
+    type: 'number',
+  )));
 }
 
 @function -ocha-most($assert, $ceiling) {
-  $value: -ocha-comparison-value($assert);
-  $result: if($value <= $ceiling, true, false);
+  $returned: -ocha-comparison-value($assert);
   $negative: map-get($assert, negative);
+  $test: if($negative, 'notAtMost', 'atMost');
+  $result: if($returned <= $ceiling, true, false);
+  $message: '';
 
   @if not $negative {
-    @return -ocha-check-equal($result, true, $assert,
-      '#{$value} is at most #{$ceiling}',
-      'Expected #{$value} to be at most #{$ceiling}'
-    );
+    $message: 'Expected #{$returned} to be at most #{$ceiling}';
   }
   @else {
-    @return -ocha-check-equal($result, false, $assert,
-      '#{$value} is not at most #{$ceiling}',
-      'Expected #{$value} to not be at most #{$ceiling}'
-    );
+    $result: if($result, false, true);
+    $message: 'Expected #{$returned} to not be at most #{$ceiling}';
   }
 
-  @return $assert;
+  @return map-merge($assert, (result: (
+    test: $test,
+    passed: $result,
+    assertion: $message,
+    expected: '<= #{$ceiling}',
+    returned: $returned,
+    type: 'number',
+  )));
 }
 
 @function -ocha-within($assert, $range) {
+  $returned: -ocha-comparison-value($assert);
+  $negative: map-get($assert, negative);
   $floor: nth($range, 1);
   $ceiling: nth($range, 2);
-  $string: '#{$floor}..#{$ceiling}';
-
-  $value: -ocha-comparison-value($assert);
-  $result: if($value >= $floor and $value <= $ceiling, true, false);
-  $negative: map-get($assert, negative);
+  $test: if($negative, 'notWithin', 'within');
+  $result: if($returned >= $floor and $returned <= $ceiling, true, false);
+  $message: '';
 
   @if not $negative {
-    @return -ocha-check-equal($result, true, $assert,
-      '#{$value} is within #{$string}',
-      'Expected #{$value} to be within #{$string}'
-    );
+    $message: 'Expected #{$returned} to be within #{$floor}..#{$ceiling}';
   }
   @else {
-    @return -ocha-check-equal($result, false, $assert,
-      '#{$value} is not within #{$string}',
-      'Expected #{$value} to not be within #{$string}'
-    );
+    $result: if($result, false, true);
+    $message: 'Expected #{$returned} to not be within #{$floor}..#{$ceiling}';
   }
 
-  @return $assert;
+  @return map-merge($assert, (result: (
+    test: $test,
+    passed: $result,
+    assertion: $message,
+    expected: '#{$floor} <= #{$ceiling} <= #{$ceiling}',
+    returned: $returned,
+    type: 'number',
+  )));
 }
 
 @function -ocha-closeTo($assert, $options) {
-  $value: map-get($assert, value);
+  $returned: map-get($assert, value);
   $negative: map-get($assert, negative);
-
   $base: nth($options, 1);
   $delta: nth($options, 2);
-
   $floor: $base - $delta;
   $ceiling: $base + $delta;
-
-  $result: if($value >= $floor and $value <= $ceiling, true, false);
+  $test: if($negative, 'notCloseTo', 'closeTo');
+  $result: if($returned >= $floor and $returned <= $ceiling, true, false);
+  $message: '';
 
   @if not $negative {
-    @return -ocha-check-equal($result, true, $assert,
-      '#{$value} is within #{$delta} of #{$base}',
-      'Expected #{$value} to be within #{$delta} of #{$base}'
-    );
+    $message: 'Expected #{$returned} to be within #{$delta} of #{$base}';
   }
   @else {
-    @return -ocha-check-equal($result, false, $assert,
-      '#{$value} is not within #{$delta} of #{$base}',
-      'Expected #{$value} to not be within #{$delta} of #{$base}'
-    );
+    $result: if($result, false, true);
+    $message: 'Expected #{$returned} to not be within #{$delta} of #{$base}';
   }
+
+  @return map-merge($assert, (result: (
+    test: $test,
+    passed: $result,
+    assertion: $message,
+    expected: '#{$floor} <= #{$ceiling} <= #{$ceiling}',
+    returned: $returned,
+    type: 'number',
+  )));
 }

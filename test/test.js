@@ -6,7 +6,13 @@ var True = require('sass-true');
 var trueParse = require('sass-true/lib/main').parse;
 
 describe('Assertions', () => {
-  testFile('test/test.scss');
+  testFile('test/equal.scss');
+  testFile('test/above.scss');
+  testFile('test/least.scss');
+  testFile('test/below.scss');
+  testFile('test/most.scss');
+  testFile('test/within.scss');
+  testFile('test/length.scss');
 });
 
 /**
