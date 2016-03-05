@@ -2,21 +2,31 @@
   <img width="400" src="https://raw.githubusercontent.com/gakimball/ocha/master/assets/logo.png" alt="Ocha">
 </h1>
 
-A BDD-style assertion library for Sass. Eventually it will maybe work with [True](https://github.com/oddbird/true).
+A BDD-style assertion library for Sass that works with the [True](https://github.com/oddbird/true) test runner.
 
 ## Installation
 
-It's not on npm yet!
+Install Ocha through npm or Bower.
+
+```bash
+npm install ocha
+bower install ocha
+```
 
 ## Usage
 
 Use the `expect()` mixin to write an assertion. Pass a value to check, and then a series of language functions. Most assertions also require a final value to compare with.
 
 ```scss
+@import 'true';
 @import 'ocha';
 
-$value: 5
-@require expect($value to equal 5);
+@include test-module('Test Module') {
+  @include test('Test') {
+    $value: 5
+    @require expect($value to equal 5);
+  }
+}
 ```
 
 ## API
