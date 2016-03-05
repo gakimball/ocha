@@ -1,0 +1,23 @@
+{
+  "name": "ocha",
+  "description": "BDD-style Sass assertion library.",
+  "main": "src/ocha.scss",
+  "authors": [
+    "Geoff Kimball <geoff@geoffkimball.com> (http://geoffkimball.com)"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "sass",
+    "testing",
+    "assert"
+  ],
+  "homepage": "https://github.com/gakimball/ocha",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

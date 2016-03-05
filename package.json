@@ -2,7 +2,7 @@
   "name": "ocha",
   "version": "0.1.0",
   "description": "BDD-style Sass assertion library.",
-  "main": "index.js",
+  "main": "src/ocha.scss",
   "scripts": {
     "test": "mocha"
   },
