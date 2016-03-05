@@ -1,0 +1,22 @@
+@import '../node_modules/sass-true/sass/true';
+@import '../src/ocha';
+
+$list: (0, 1, 2);
+
+@include test-module('LengthOf') {
+  @include test('Passes if length of a list is equal to a value') {
+    @include expect($list to have lengthOf 3);
+  }
+  @include test('Fails if length of a list is not equal to a value') {
+    @include expect($list to have lengthOf 0);
+  }
+}
+
+@include test-module('Not LengthOf') {
+  @include test('Passes if length of a list is not equal to a value') {
+    @include expect($list to 'not' have lengthOf 0);
+  }
+  @include test('Fails if length of a list is equal to a value') {
+    @include expect($list to 'not' have lengthOf 3);
+  }
+}

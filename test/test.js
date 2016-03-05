@@ -14,6 +14,11 @@ describe('Assertions', () => {
   testFile('test/within.scss');
   testFile('test/length.scss');
   testFile('test/lengthOf.scss');
+  testFile('test/empty.scss');
+  testFile('test/string.scss');
+  testFile('test/contain.scss');
+  testFile('test/oneOf.scss');
+  testFile('test/members.scss');
 });
 
 /**

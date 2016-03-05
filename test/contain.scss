@@ -1,0 +1,35 @@
+@import '../node_modules/sass-true/sass/true';
+@import '../src/ocha';
+
+$string: 'kittens';
+$list: (0, 1, 2);
+
+@include test-module('Contain') {
+  @include test('Passes if string contains a value') {
+    @include expect($string to contain 'kit');
+  }
+  @include test('Fails if string does not contain a value') {
+    @include expect($string to contain 'kat');
+  }
+  @include test('Passes if list contains a value') {
+    @include expect($list to contain 0);
+  }
+  @include test('Fails if list does not contain a value') {
+    @include expect($list to contain 4);
+  }
+}
+
+@include test-module('Not Contain') {
+  @include test('Passes if string does not contain a value') {
+    @include expect($string to 'not' contain 'kat');
+  }
+  @include test('Fails if string contains a value') {
+    @include expect($string to 'not' contain 'kit');
+  }
+  @include test('Passes if list does not contain a value') {
+    @include expect($list to 'not' contain 4);
+  }
+  @include test('Fails if list contains a value') {
+    @include expect($list to 'not' contain 0);
+  }
+}

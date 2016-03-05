@@ -1,0 +1,11 @@
+@function -ocha-check-oneOf($value, $list) {
+  $found: false;
+
+  @each $item in $list {
+    @if $value == $item {
+      $found: true;
+    }
+  }
+
+  @return $found;
+}

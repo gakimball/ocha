@@ -1,0 +1,12 @@
+/// Check if a list contains a value, or if a string contains a substring.
+/// @param {List|String} $haystack - Value to search within.
+/// @param {*} $needle - Value to search for.
+/// @returns {Boolean} `true` if `$needle` is inside `$haystack`, `false` otherwise.
+@function -ocha-check-contains($haystack, $needle) {
+  @if type-of($haystack) == 'list' {
+    @return if(index($haystack, $needle), true, false);
+  }
+  @else {
+    @return if(str-index($haystack, $needle), true, false);
+  }
+}

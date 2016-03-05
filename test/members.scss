@@ -1,0 +1,22 @@
+@import '../node_modules/sass-true/sass/true';
+@import '../src/ocha';
+
+$list: (0, 1, 2, 3, 4);
+
+@include test-module('Members') {
+  @include test('Passes if a list is the superset of a value') {
+    @include expect($list to have members (0, 1, 2));
+  }
+  @include test('Fails if a list is not the superset of a value') {
+    @include expect($list to have members (1, 2, 5));
+  }
+}
+
+@include test-module('Not Members') {
+  @include test('Passes if a list is not the superset of a value') {
+    @include expect($list to 'not' have members (1, 2, 5));
+  }
+  @include test('Fails if a list is the superset of a value') {
+    @include expect($list to 'not' have members (0, 1, 2));
+  }
+}
