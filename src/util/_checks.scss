@@ -140,3 +140,26 @@
     @error 'expect(): property can only be used with maps and lists.';
   }
 }
+
+/// Check if a value is truthy. This includes:
+///   - `true`
+///   - Any value that isn't `false` or `null`
+///   - A number that isn't 0
+///   - A list that isn't empty
+/// @param {*} $value - Value to check for truthiness.
+/// @returns {Boolean} `true` if the value is truthy, `false` otherwise.
+@function -ocha-check-ok($value) {
+  $true: true;
+
+  @if $value == null or $value == none {
+    $true: false;
+  }
+  @if type-of($value) == 'number' and $value == 0 {
+    $true: false;
+  }
+  @if type-of($value) == 'list' and length($value) == 0 {
+    $true: false;
+  }
+
+  @return $true;
+}

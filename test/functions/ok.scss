@@ -1,0 +1,80 @@
+@import '../../node_modules/sass-true/sass/true';
+@import '../../src/ocha';
+
+@include test-module('A') {
+  // Passing assertions
+  @include test('Passes if a value is true') {
+    @include expect(true to be ok);
+  }
+  @include test('Passes if a value is a string') {
+    @include expect('string' to be ok);
+  }
+  @include test('Passes if a value is a non-zero number') {
+    @include expect(1 to be ok);
+  }
+  @include test('Passes if a value is a non-empty list') {
+    $list: (0, 1, 2);
+    @include expect($list to be ok);
+  }
+  @include test('Passes if a value is a map') {
+    $map: (one: 'one');
+    @include expect($map to be ok);
+  }
+  @include test('Passes if a value is a color') {
+    @include expect(#fff to be ok);
+  }
+
+  // Failing assertions
+  @include test('Fails if a value is false') {
+    @include expect(false to be ok);
+  }
+  @include test('Fails if a value is null') {
+    @include expect(null to be ok);
+  }
+  @include test('Fails if a value is 0') {
+    @include expect(0 to be ok);
+  }
+  @include test('Fails if a value is an empty list') {
+    $list: ();
+    @include expect($list to be ok);
+  }
+}
+
+@include test-module('Not A') {
+  // Passing assertions
+  @include test('Passes if a value is false') {
+    @include expect(false to 'not' be ok);
+  }
+  @include test('Passes if a value is null') {
+    @include expect(null to 'not' be ok);
+  }
+  @include test('Passes if a value is 0') {
+    @include expect(0 to 'not' be ok);
+  }
+  @include test('Passes if a value is an empty list') {
+    $list: ();
+    @include expect($list to 'not' be ok);
+  }
+
+  // Failing assertions
+  @include test('Fails if a value is true') {
+    @include expect(true to 'not' be ok);
+  }
+  @include test('Fails if a value is a string') {
+    @include expect('string' to 'not' be ok);
+  }
+  @include test('Fails if a value is a non-zero number') {
+    @include expect(1 to 'not' be ok);
+  }
+  @include test('Fails if a value is a non-empty list') {
+    $list: (0, 1, 2);
+    @include expect($list to 'not' be ok);
+  }
+  @include test('Fails if a value is a map') {
+    $map: (one: 'one');
+    @include expect($map to 'not' be ok);
+  }
+  @include test('Fails if a value is a color') {
+    @include expect(#fff to 'not' be ok);
+  }
+}

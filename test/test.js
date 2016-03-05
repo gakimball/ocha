@@ -19,6 +19,11 @@ describe('Assertions', () => {
   testFile('test/functions/contain.scss');
   testFile('test/functions/oneOf.scss');
   testFile('test/functions/members.scss');
+  testFile('test/functions/a.scss');
+  testFile('test/functions/ok.scss');
+  testFile('test/functions/true.scss');
+  testFile('test/functions/false.scss');
+  testFile('test/functions/null.scss');
 });
 
 /**

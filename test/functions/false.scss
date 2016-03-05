@@ -1,0 +1,20 @@
+@import '../../node_modules/sass-true/sass/true';
+@import '../../src/ocha';
+
+@include test-module('False') {
+  @include test('Passes if value is false') {
+    @include expect(false to be 'false');
+  }
+  @include test('Fails if value is not false') {
+    @include expect(true to be 'false');
+  }
+}
+
+@include test-module('Not False') {
+  @include test('Passes if value is not false') {
+    @include expect(true to 'not' be 'false');
+  }
+  @include test('Fails if value is false') {
+    @include expect(false to 'not' be 'false');
+  }
+}
