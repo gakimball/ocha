@@ -24,7 +24,7 @@ Use the `expect()` mixin to write an assertion. Pass a value to check, and then 
 @include test-module('Test Module') {
   @include test('Test') {
     $value: 5
-    @require expect($value to equal 5);
+    @include expect($value to equal 5);
   }
 }
 ```
