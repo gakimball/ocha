@@ -1,6 +1,6 @@
 {
   "name": "ocha",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "BDD-style Sass assertion library.",
   "main": "index.js",
   "scripts": {
