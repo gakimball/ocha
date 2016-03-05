@@ -32,6 +32,7 @@ function testFile(file) {
   try {
     res = sass.renderSync({ file: file });
   }
+  // If a Sass file has a compile error, drop the error into a Mocha test so the whole script doesn't crash
   catch (e) {
     describe(file, () => {
       it('compiles without errors', () => {

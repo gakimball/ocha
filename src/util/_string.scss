@@ -1,4 +1,11 @@
-// Thank you: http://hugogiraudel.com/2013/08/08/advanced-sass-list-functions/
+/// Return a subset of a string, starting at index `$start` and ending at the end of the string, or `$end`.
+/// @author Hugo Giraudel
+/// @link http://hugogiraudel.com/2013/08/08/advanced-sass-list-functions/ Advanced Sass List Functions
+///
+/// @param {String} $list - String to slice.
+/// @param {Number} $start [1] - Starting index to slice at.
+/// @param {Number} $end [length($list)] - Index to end the slice at.
+/// @returns {String} A sliced string.
 @function -ocha-str-slice($list, $start: 1, $end: length($list)) {
   $result: null;
 
@@ -34,11 +41,13 @@
 }
 
 
-/// Split `$string` into several parts using `$delimiter`.
+/// Split a string into a list using a specific character (delimiter).
+/// @author Hugo Giraudel
 /// @link https://github.com/HugoGiraudel/SassyStrings/blob/master/stylesheets/private/_str-explode.scss
-/// @param {String} $string    - string to split
-/// @param {String} $delimiter ('') - string to use as a delimiter to split `$string`
-/// @return {List}
+///
+/// @param {String} $string - String to split.
+/// @param {String} $delimiter [''] - Delimiter to use when splitting the string.
+/// @return {List} A separated string.
 @function -ocha-str-split($string, $delimiter: "") {
   $result: ();
   $length: str-length($string);
@@ -69,19 +78,17 @@
   @return append($result, $remaining);
 }
 
-
+/// Casts a string into a number.
+/// @author Hugo Giraudel
+/// @link http://www.sassmeister.com/gist/9fa19d254864f33d4a80
 ///
-/// Casts a string into a number
-///
-/// @param {String | Number} $value - Value to be parsed
-///
-/// @return {Number}
-///
-@function to-number($value) {
+/// @param {String | Number} $value - Value to be parsed.
+/// @return {Number} A converted number.
+@function -ocha-to-number($value) {
   @if type-of($value) == 'number' {
     @return $value;
   } @else if type-of($value) != 'string' {
-    $_: log('Value for `to-number` should be a number or a string.');
+    $_: log('Value for `-ocha-to-number` should be a number or a string.');
   }
 
   $result: 0;
@@ -93,7 +100,7 @@
     $character: str-slice($value, $i, $i);
 
     @if not (index(map-keys($numbers), $character) or $character == '.') {
-      @return to-length(if($minus, -$result, $result), str-slice($value, $i))
+      @return -ocha-to-length(if($minus, -$result, $result), str-slice($value, $i))
     }
 
     @if $character == '.' {
@@ -109,16 +116,14 @@
   @return if($minus, -$result, $result);;
 }
 
-
+/// Add `$unit` to `$value`.
+/// @author Hugo Giraudel
+/// @link http://www.sassmeister.com/gist/9fa19d254864f33d4a80
 ///
-/// Add `$unit` to `$value`
-///
-/// @param {Number} $value - Value to add unit to
-/// @param {String} $unit - String representation of the unit
-///
-/// @return {Number} - `$value` expressed in `$unit`
-///
-@function to-length($value, $unit) {
+/// @param {Number} $value - Value to add unit to.
+/// @param {String} $unit - String representation of the unit.
+/// @return {Number} - `$value` expressed in `$unit`.
+@function -ocha-to-length($value, $unit) {
   $units: ('px': 1px, 'cm': 1cm, 'mm': 1mm, '%': 1%, 'ch': 1ch, 'pc': 1pc, 'in': 1in, 'em': 1em, 'rem': 1rem, 'pt': 1pt, 'ex': 1ex, 'vw': 1vw, 'vh': 1vh, 'vmin': 1vmin, 'vmax': 1vmax);
 
   @if not index(map-keys($units), $unit) {

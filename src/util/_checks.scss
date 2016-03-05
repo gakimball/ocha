@@ -1,0 +1,142 @@
+////
+/// These functions perform more complex checks needed by assertions.
+/// They keep the core assertion functions slightly more slim by offloading complex logic into external helpers.
+/// All of these functions should return booleans, and shouldn't require the assertion context to function.
+////
+
+/// Check if a list contains a value, or if a string contains a substring.
+/// @param {List|String} $haystack - Value to search within.
+/// @param {*} $needle - Value to search for.
+/// @returns {Boolean} `true` if `$needle` is inside `$haystack`, `false` otherwise.
+@function -ocha-check-contains($haystack, $needle) {
+  @if type-of($haystack) == 'list' {
+    @return if(index($haystack, $needle), true, false);
+  }
+  @else {
+    @return if(str-index($haystack, $needle), true, false);
+  }
+}
+
+/// Check if `$value` is equal to one of the values in `$list`.
+/// @param {*} $value - Value to look for.
+/// @param {List} $list - List to search.
+/// @returns {Boolean} `true` if the value was found, `false` otherwise.
+@function -ocha-check-oneOf($value, $list) {
+  $found: false;
+
+  @each $item in $list {
+    @if $value == $item {
+      $found: true;
+    }
+  }
+
+  @return $found;
+}
+
+/// Check if list `$map` contains every value in `$list`.
+/// @param {List} $map - List to check within.
+/// @param {List} $list - Values to look for.
+/// @returns {Boolean} `true` if all values in `$list` were found, `false` otherwise.
+@function -ocha-check-members($map, $list) {
+  $result: true;
+
+  @each $item in $list {
+    @if index($map, $item) == null {
+      $result: false;
+    }
+  }
+
+  @return $result;
+}
+
+/// Check if a map or list contains a deeply-nested property, using this syntax:
+///   - `key`: Look for `key` within the map.
+///   - `key.subkey`: Look for `key`, and then `subkey` inside of that.
+///   - `1`: Look for index 1 within a list.
+///   - `key.1`: Look for `key` with a map, and then index 1 of `key`.
+/// By default, this function just checks for the existence of the final key or index. However, by passing the `$value` parameter, it will check if the key exists *and* if the value of the key matches `$value`.
+///
+/// @param {String} $items - Keys to check for, separated by dots.
+/// @param {Map|List} $input - Map or list to search.
+/// @param {$value} [null] $value - Value to check.
+/// @returns {Boolean} `true` if the key was found (or `true` if the key with `$value` was found), `false` otherwise.
+@function -ocha-check-deep-property($items, $input, $value: null) {
+  $keys: if(type-of($input) == 'string', -ocha-str-split($input, '.'), $input);
+  $key: nth($keys, 1);
+
+  // $items is a map
+  @if type-of($items) == 'map' {
+    // Check if the map has the key given
+    @if map-has-key($items, $key) {
+      // If the length of $keys is 1, then we're on the last item in the chain, so we should check for a matching value
+      @if length($keys) == 1 {
+        @if $value != null {
+          @return map-get($items, $key) == $value;
+        }
+        // ...unless no value to check was passed, in which case we're just verifying that the key exists
+        @else {
+          @return true;
+        }
+      }
+      // If there are still more keys to check, we have to go deeper
+      @else {
+        $value-type: type-of(map-get($items, $key));
+
+        // The nested value to check must be a map or list
+        @if $value-type == 'map' or $value-type == 'list' {
+          $next-items: map-get($items, $key);
+          $next-input: -ocha-str-slice($keys, 2);
+          @return -ocha-check-deep-property($next-items, $next-input, $value);
+        }
+        // If it's not, return false
+        @else {
+          @return false;
+        }
+      }
+    }
+    @else {
+      @return false;
+    }
+  }
+  // $items is a list
+  @else if type-of($items) == 'list' {
+    $i: -ocha-to-number($key);
+
+    // Check if the index exists in the list
+    @if $i <= length($items) {
+      // If the length of $keys is 1, then we're on the last item in the chain, so we should check for a matching value
+      @if length($keys) == 1 {
+        @if $value != null {
+          @return nth($items, $i) == $value;
+        }
+        // ...unless no value to check was passed, in which case we're just verifying that the key exists
+        @else {
+          @return true;
+        }
+      }
+      // If there are still more keys to check, we have to go deeper
+      @else {
+        $value-type: type-of(nth($items, $i));
+
+        // The nested value to check must be a map or list
+        @if $value-type == 'map' or $value-type == 'list' {
+          $next-items: nth($items, $i);
+          $next-input: -ocha-str-slice($keys, 2);
+          @return -ocha-check-deep-property($next-items, $next-input, $value);
+        }
+        // If it's not, return false
+        @else {
+          @return false;
+        }
+      }
+    }
+    // If it's not there, return false
+    @else {
+      @return false;
+    }
+  }
+  // $items is neither
+  @else {
+    @error 'expect(): property can only be used with maps and lists.';
+  }
+}

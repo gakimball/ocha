@@ -1,3 +1,8 @@
+/// Get a value to compare with the `above`, `below`, `least`, `most`, or `within` assertions.
+///   - If the `length` flag of the assertion is enabled, assume the value is a list, and return it's length for comparison.
+///   - Otherwise, return the value as-is for comparison.
+/// @param {Number|List} $assert - Assertion object to pull the input value and `list` flag out of.
+/// @returns {Number} Number to use for comparison.
 @function -ocha-comparison-value($assert) {
   // List length check
   @if map-get($assert, length) {
