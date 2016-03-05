@@ -1,8 +1,12 @@
+@import '../node_modules/sass-true/sass/true';
 @import '../src/ocha';
 
-@include test-module('Test') {
-  @include test('Thing') {
+@include test-module('Equals') {
+  @include test('Passes if two numbers are equal') {
     @include expect(2 to equal 2);
+  }
+  @include test('Fails if two numbers are not equal') {
+    @include expect(2 to equal 4);
   }
 }
 

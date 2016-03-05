@@ -5,17 +5,35 @@ var True = require('sass-true');
 
 var trueParse = require('sass-true/lib/main').parse;
 
-describe('Ocha', () => {
-  it('works', done => {
-    test('test/test.scss', true, done);
-  });
+describe('Assertions', () => {
+  testFile('test/test.scss');
 });
 
-function test(file, passed, cb) {
-  sass.render(eyeglass({ file: file }), (err, res) => {
-    if (err) throw err;
-    var tests = trueParse(res.css.toString());
-    expect(tests[0].tests[0].assertions[0].passed).to.equal(passed);
-    cb();
-  });
+/**
+ * Tests a Sass file, converting True's test-module() and test() mixins into Mocha describe and it blocks.
+ * Each Sass test has one assertion which should either pass or fail. The JavaScript tests created here are verifying that an assertion properly passed or failed based on what's expected.
+ * @param {string} file - Path to a test file.
+ */
+function testFile(file) {
+  var res = sass.renderSync({ file: file });
+
+  var modules = trueParse(res.css.toString());
+
+  for (var i in modules) {
+    var module = modules[i];
+
+    // Create a describe block for each use of @include test-module
+    describe(module.module, () => {
+      for (var j in module.tests) {
+        var test = module.tests[j];
+
+        // Create an it block for each use of @include test
+        it(test.test, () => {
+          var passing = test.test.indexOf('Pass') === 0 ? true : false;
+          // Assume one assertion per test
+          expect(test.assertions[0].passed).to.equal(passing);
+        });
+      }
+    });
+  }
 }
