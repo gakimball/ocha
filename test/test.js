@@ -13,6 +13,7 @@ describe('Assertions', () => {
   testFile('test/most.scss');
   testFile('test/within.scss');
   testFile('test/length.scss');
+  testFile('test/lengthOf.scss');
 });
 
 /**
@@ -21,7 +22,20 @@ describe('Assertions', () => {
  * @param {string} file - Path to a test file.
  */
 function testFile(file) {
-  var res = sass.renderSync({ file: file });
+  var res;
+
+  try {
+    res = sass.renderSync({ file: file });
+  }
+  catch (e) {
+    describe(file, () => {
+      it('compiles without errors', () => {
+        throw e;
+      });
+    });
+
+    return;
+  }
 
   var modules = trueParse(res.css.toString());
 
