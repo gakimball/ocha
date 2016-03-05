@@ -1,5 +1,5 @@
-@import '../node_modules/sass-true/sass/true';
-@import '../src/ocha';
+@import '../../node_modules/sass-true/sass/true';
+@import '../../src/ocha';
 
 @include test-module('Most') {
   @include test('Passes if number is at most a value') {

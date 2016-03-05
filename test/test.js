@@ -6,19 +6,19 @@ var True = require('sass-true');
 var trueParse = require('sass-true/lib/main').parse;
 
 describe('Assertions', () => {
-  testFile('test/equal.scss');
-  testFile('test/above.scss');
-  testFile('test/least.scss');
-  testFile('test/below.scss');
-  testFile('test/most.scss');
-  testFile('test/within.scss');
-  testFile('test/length.scss');
-  testFile('test/lengthOf.scss');
-  testFile('test/empty.scss');
-  testFile('test/string.scss');
-  testFile('test/contain.scss');
-  testFile('test/oneOf.scss');
-  testFile('test/members.scss');
+  testFile('test/functions/equal.scss');
+  testFile('test/functions/above.scss');
+  testFile('test/functions/least.scss');
+  testFile('test/functions/below.scss');
+  testFile('test/functions/most.scss');
+  testFile('test/functions/within.scss');
+  testFile('test/functions/length.scss');
+  testFile('test/functions/lengthOf.scss');
+  testFile('test/functions/empty.scss');
+  testFile('test/functions/string.scss');
+  testFile('test/functions/contain.scss');
+  testFile('test/functions/oneOf.scss');
+  testFile('test/functions/members.scss');
 });
 
 /**
