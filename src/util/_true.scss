@@ -1,3 +1,17 @@
+////
+/// This mixin consumes the `result` property of an assertion object and converts it into True-compatible CSS. It should have these properties:
+///   - test: The type of test (i.e., equal, is true, has key).
+///   - passed: Boolean indicating if the test passed.
+///   - assertion: Error message to display if the test failed.
+///   - expected: Value expected by the assertion.
+///   - returned: Input value given to the assertion.
+///   - type: Type of the expected/returned values.
+////
+
+/// Create a CSS declaration compatible with True, displaying the result of an assertion.
+/// All of Ocha's assertions compile down to a single "pass" or "fail", which is inserted into the CSS output.
+/// @param {Map} $result - The `result` key of an assertion object.
+/// @output A True-compatible CSS declaration.
 @mixin -ocha-true-assert($result) {
   $passed: if(map-get($result, passed), PASS, FAIL);
   $expected-type: null;

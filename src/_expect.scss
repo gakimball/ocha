@@ -1,0 +1,70 @@
+/// These functions don't require parameters to be passed to them, so they can be used at the end of an assertion chain.
+$-ocha-standalone: (
+  'ok',
+  'true',
+  'false',
+  'null',
+  'empty',
+);
+
+/// Create an assertion using an input value, a chain of functions, and possibly an expected value, depending on the last function.
+/// Assertions with an expected value follow this format:
+/// ```scss
+/// @include expect($input to equal 10);
+/// ```
+/// Assertions without an expected value follow this format:
+/// ```scss
+/// @include expect($input to be ok);
+/// ```
+///
+/// @param {List} $args - Assertion to test.
+/// @output Outputs a True assertion, which is either passing or failing based on the assertion.
+@mixin expect($args) {
+  // The first item in the list is the input value
+  $value: nth($args, 1);
+
+  // The assertion functions are everything in the middle
+  $functions: -ocha-str-slice($args, 2, length($args) - 1);
+
+  // The final item is the expected value
+  $final: nth($args, length($args));
+
+  // ...unless the last item happens to be an assertion function
+  // In that case, place the last item with the function list
+  @if index($-ocha-standalone, $final) {
+    $functions: append($functions, $final);
+    $final: null;
+  }
+
+  // This is an assertion object, which is modified by the various assertion functions.
+  //   - value: The input (actual) value.
+  //   - negative: Flag that causes passing tests to fail and vice-versa.
+  //   - length: Flag that causes comparison functions to analyze the length of a list.
+  //   - all: Flag that causes the key function to check for all expected keys.
+  //   - only: Flag that causes the key function to require a map only has the expected keys.
+  //   - deep: Flag that causes the equal and property functions to deeply-analyze a map.
+  //   - result: Map containing the results of an assertion. The last function in the chain creates this.
+  $assertion: (
+    value: $value,
+    negative: false,
+    length: false,
+    all: true,
+    only: true,
+    deep: false,
+    result: (),
+  );
+
+  // Run assertion functions
+  @each $func in $functions {
+    // The last function in the chain is passed a value
+    @if index($functions, $func) == length($functions) {
+      $assertion: call('-ocha-#{$func}', $assertion, $final);
+    }
+    @else {
+      $assertion: call('-ocha-#{$func}', $assertion);
+    }
+  }
+
+  // Output the final result of the assertion to True
+  @include -ocha-true-assert(map-get($assertion, result));
+}
