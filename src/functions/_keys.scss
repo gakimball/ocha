@@ -7,51 +7,28 @@
 }
 
 @function -ocha-keys($assert, $keys) {
-  $map: map-get($assert, value);
+  $returned: map-get($assert, value);
   $negative: map-get($assert, negative);
-  $all: map-get($assert, all);
-  $only: if($all, map-get($assert, only), false);
-  $result: null;
-
-  $matches: 0;
-
-  @each $key, $value in $map {
-    // Look for the key in the input map in the list of expected keys
-    @if index($keys, $key) {
-      $matches: $matches + 1;
-    }
-    // If this test is that the map ONLY has certain keys, then it fails if a key isn't found in the list
-    @else if $only {
-      $result: false;
-    }
-  }
-
-  // If the test didn't already fail, we have one more check to do
-  @if $result != false {
-    // If the "all" flag is used, then every key in the list needs to have been found
-    @if $all {
-      $result: if($matches == length($keys), true, false);
-    }
-    // If the "all" flag is not used, then at least one key in the list needs to have been found
-    @else {
-      $result: if($matches > 0, true, false);
-    }
-  }
-
-  $map: inspect($map);
+  $test: if($negative, 'notKeys', 'keys');
+  $result: if(-ocha-check-keys($returned, $keys, map-get($assert, all), map-get($assert, only)), true, false);
+  $message: '';
 
   @if not $negative {
-    @return -ocha-check-equal($result, true, $assert,
-      '#{$map} has keys #{$keys}',
-      'Expected #{$map} to have keys #{$keys}'
-    );
+    $message: 'Expected #{inspect($returned)} to have keys #{$keys}';
   }
   @else {
-    @return -ocha-check-equal($result, false, $assert,
-      '#{$map} does not have keys #{$keys}',
-      'Expected #{$map} to not have keys #{$keys}'
-    );
+    $result: if($result, false, true);
+    $message: 'Expected #{inspect($returned)} to not have keys #{$keys}';
   }
+
+  @return map-merge($assert, (result: (
+    test: $test,
+    passed: $result,
+    assertion: $message,
+    expected: $keys,
+    returned: map-keys($returned),
+    type: 'keys',
+  )));
 }
 
 @function -ocha-property($assert, $property) {
@@ -59,59 +36,64 @@
     @return -ocha-deep-property($assert, $property);
   }
 
-  $map: map-get($assert, value);
+  $returned: map-get($assert, value);
   $negative: map-get($assert, negative);
-  $result: null;
-  $key: null;
-  $value: null;
+  $test: if($negative, 'notProperty', 'property');
+  $result: if(-ocha-check-property($returned, $property), true, false);
   $message: '';
 
-  @if type-of($property) == 'list' {
-    $key: nth($property, 1);
-    $value: nth($property, 2);
-    $result: if(map-has-key($map, $key) and map-get($map, $key) == $value, true, false);
-    $message: '#{$key} with value #{$value}';
+  @if not $negative {
+    @if type-of($property) != 'list' {
+      $message: 'Expected #{inspect($returned)} to have property #{$property}';
+    }
+    @else {
+      $message: 'Expected #{inspect($returned)} to have property #{nth($property, 1)} with value #{nth($property, 2)}';
+    }
   }
   @else {
-    $key: $property;
-    $result: map-has-key($map, $key);
-    $message: '#{$key}';
+    $result: if($result, false, true);
+
+    @if type-of($property) != 'list' {
+      $message: 'Expected #{inspect($returned)} to not have property #{$property}';
+    }
+    @else {
+      $message: 'Expected #{inspect($returned)} to not have property #{nth($property, 1)} with value #{nth($property, 2)}';
+    }
   }
+
+  @return map-merge($assert, (result: (
+    test: $test,
+    passed: $result,
+    assertion: $message,
+    expected: if(type-of($property) == 'list', nth($property, 1), $property),
+    returned: map-keys($returned),
+    type: 'key',
+  )));
 
   $map: inspect($map);
-
-  @if not $negative {
-    @return -ocha-check-equal($result, true, $assert,
-      '#{$map} has property #{$message}',
-      'Expected #{$map} to have property #{$message}'
-    );
-  }
-  @else {
-    @return -ocha-check-equal($result, false, $assert,
-      '#{$map} does not have property #{$message}',
-      'Expected #{$map} to not have property #{$message}'
-    );
-  }
 }
 
 @function -ocha-eql($assert, $expected) {
-  $value: map-get($assert, value);
+  $returned: map-get($assert, value);
   $negative: map-get($assert, negative);
-  $result: if($value == $expected, true, false);
-
-  $value: inspect($value);
-  $expected: inspect($expected);
+  $test: if($negative, 'notEql', 'eql');
+  $result: if($returned == $expected, true, false);
+  $message: '';
 
   @if not $negative {
-    @return -ocha-check-equal($result, true, $assert,
-      '#{$value} deep equals #{$expected}',
-      'Expected #{$value} to deep equal #{$expected}'
-    );
+    $message: 'Expected #{inspect($returned)} to deep equal #{inspect($expected)}';
   }
   @else {
-    @return -ocha-check-equal($result, false, $assert,
-      '#{$value} does not deep equal #{$expected}',
-      'Expected #{$value} to not deep equal #{$expected}'
-    );
+    $result: if($result, false, true);
+    $message: 'Expected #{inspect($returned)} to not deep equal #{inspect($expected)}';
   }
+
+  @return map-merge($assert, (result: (
+    test: $test,
+    passed: $result,
+    assertion: $message,
+    expected: inspect($expected),
+    returned: inspect($returned),
+    type: null,
+  )));
 }

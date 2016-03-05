@@ -1,0 +1,76 @@
+@import '../../node_modules/sass-true/sass/true';
+@import '../../src/ocha';
+
+$map: (
+  'one': 'one',
+  'two': (
+    'three': 'three',
+    'four': (0, 1, 2),
+  ),
+);
+
+@include test-module('Deep Equal') {
+  // Passing assertions
+  @include test('Passes if a map contains a top-level property') {
+    @include expect($map to have deep property 'one');
+  }
+  @include test('Passes if a map contains a top-level property with a value') {
+    @include expect($map to have deep property ('one', 'one'));
+  }
+  @include test('Passes if a map contains a nested property') {
+    @include expect($map to have deep property 'two.three');
+  }
+  @include test('Passes if a map contains a nested property with a value') {
+    @include expect($map to have deep property ('two.three', 'three'));
+  }
+  @include test('Passes if a list within a map has an index') {
+    @include expect($map to have deep property 'two.four.3');
+  }
+  @include test('Passes if a list within a map has a value at an index') {
+    @include expect($map to have deep property ('two.four.3', 2));
+  }
+
+  // Failing assertions
+  @include test('Fails if a map does not contain a top-level property') {
+    @include expect($map to have deep property 'three');
+  }
+  @include test('Fails if a map has a property, but the wrong value') {
+    @include expect($map to have deep property ('one', 'two'));
+  }
+  @include test('Fails if a map does not have a deeply-nested property') {
+    @include expect($map to have deep property ('two.three', 'eggs'));
+  }
+}
+
+@include test-module('Not Deep Equal') {
+  // Passing assertions
+  @include test('Passes if a map does not contain a top-level property') {
+    @include expect($map to have deep property 'three');
+  }
+  @include test('Passes if a map has a property, but the wrong value') {
+    @include expect($map to have deep property ('one', 'two'));
+  }
+  @include test('Passes if a map does not have a deeply-nested property') {
+    @include expect($map to have deep property ('two.three', 'eggs'));
+  }
+
+  // Failing assertions
+  @include test('Fails if a map contains a top-level property') {
+    @include expect($map to 'not' have deep property 'one');
+  }
+  @include test('Fails if a map contains a top-level property with a value') {
+    @include expect($map to 'not' have deep property ('one', 'one'));
+  }
+  @include test('Fails if a map contains a nested property') {
+    @include expect($map to 'not' have deep property 'two.three');
+  }
+  @include test('Fails if a map contains a nested property with a value') {
+    @include expect($map to 'not' have deep property ('two.three', 'three'));
+  }
+  @include test('Fails if a list within a map has an index') {
+    @include expect($map to 'not' have deep property 'two.four.3');
+  }
+  @include test('Fails if a list within a map has a value at an index') {
+    @include expect($map to 'not' have deep property ('two.four.3', 2));
+  }
+}

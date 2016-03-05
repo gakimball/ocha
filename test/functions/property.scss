@@ -1,0 +1,36 @@
+@import '../../node_modules/sass-true/sass/true';
+@import '../../src/ocha';
+
+$map: (
+  one: 'one'
+);
+
+@include test-module('Property') {
+  @include test('Passes if map has a key') {
+    @include expect($map to have property 'one');
+  }
+  @include test('Passes if map has a key and a value') {
+    @include expect($map to have property ('one', 'one'));
+  }
+  @include test('Fails if map does not have a key') {
+    @include expect($map to have property 'two');
+  }
+  @include test('Fails if map has a key, but not the right value') {
+    @include expect($map to have property ('one', 'two'));
+  }
+}
+
+@include test-module('Not Property') {
+  @include test('Passes if map does not have a key') {
+    @include expect($map to 'not' have property 'two');
+  }
+  @include test('Passes if map has a key, but not the right value') {
+    @include expect($map to 'not' have property ('one', 'two'));
+  }
+  @include test('Fails if map has a key') {
+    @include expect($map to 'not' have property 'one');
+  }
+  @include test('Fails if map has a key and a value') {
+    @include expect($map to 'not' have property ('one', 'one'));
+  }
+}

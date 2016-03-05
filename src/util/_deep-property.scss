@@ -1,35 +1,40 @@
 /// Assertion function for `property` if the `deep` flag is being used.
 @function -ocha-deep-property($assert, $property) {
-  $item: map-get($assert, value);
+  $returned: map-get($assert, value);
   $negative: map-get($assert, negative);
+  $test: if($negative, 'notEql', 'eql');
   $key: null;
   $value: null;
   $message: '';
+  $message-add: '';
 
   @if type-of($property) == 'list' {
     $key: nth($property, 1);
     $value: nth($property, 2);
-    $message: '#{$key} with value #{$value}';
+    $message-add: '#{$key} with value #{$value}';
   }
   @else {
     $key: $property;
     $value: null;
-    $message: '#{$key}';
+    $message-add: '#{$key}';
   }
 
-  $result: -ocha-check-deep-property($item, $key, $value);
-  $item: inspect($item);
+  $result: if(-ocha-check-deep-property($returned, $key, $value), true, false);
 
   @if not $negative {
-    @return -ocha-check-equal($result, true, $assert,
-      '#{$item} has deep property #{$message}',
-      'Expected #{$item} to have deep property #{$message}'
-    );
+    $message: 'Expected #{inspect($returned)} to have deep property #{$message-add}';
   }
   @else {
-    @return -ocha-check-equal($result, false, $assert,
-      '#{$item} does not have deep property #{$message}',
-      'Expected #{$item} to not have deep property #{$message}'
-    );
+    $result: if($result, false, true);
+    $message: 'Expected #{inspect($returned)} to not have deep property #{$message-add}';
   }
+
+  @return map-merge($assert, (result: (
+    test: $test,
+    passed: $result,
+    assertion: $message,
+    expected: $key,
+    returned: map-keys($returned),
+    type: 'key',
+  )));
 }

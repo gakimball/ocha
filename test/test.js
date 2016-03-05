@@ -24,6 +24,10 @@ describe('Assertions', () => {
   testFile('test/functions/true.scss');
   testFile('test/functions/false.scss');
   testFile('test/functions/null.scss');
+  testFile('test/functions/keys.scss');
+  testFile('test/functions/property.scss');
+  testFile('test/functions/eql.scss');
+  testFile('test/functions/deep-equal.scss');
 });
 
 /**

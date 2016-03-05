@@ -163,3 +163,67 @@
 
   @return $true;
 }
+
+/// Check if a map contains all, some, or only the keys in a list, based on what flags are passed.
+///   - If `$all` is `false`, the map must contain any keys in `$keys`.
+///   - If `$all` is `true`, the map must contain every key in `$keys`.
+///   - If `$all` is `true` and `$only` is `true`, the map must contain every key in `$keys`, and *only* those keys.
+/// @param {Map} $map - Map to inspect.
+/// @param {List} $keys - List of keys to check for.
+/// @param {Boolean} $all [false] - Require all keys to be found.
+/// @param {Boolean} $only [false] - Require the map to only have the keys in `$keys`.
+/// @returns {Boolean} `true` if the map passes the test, `false` otherwise.
+@function -ocha-check-keys($map, $keys, $all: false, $only: false) {
+  // The Only flag can only be used with the All flag
+  $only: if($all, $only, false);
+
+  // Final result to be returned, eventually is true or false
+  $result: null;
+
+  // Number of matching keys found
+  $matches: 0;
+
+  @each $key, $value in $map {
+    // Look for the key in the input map in the list of expected keys
+    @if index($keys, $key) {
+      $matches: $matches + 1;
+    }
+    // If this test is that the map ONLY has certain keys, then it fails if a key isn't found in the list
+    @else if $only {
+      $result: false;
+    }
+  }
+
+  // If the test didn't already fail, we have one more check to do
+  @if $result != false {
+    // If the "all" flag is used, then every key in the list needs to have been found
+    @if $all {
+      $result: if($matches == length($keys), true, false);
+    }
+    // If the "all" flag is not used, then at least one key in the list needs to have been found
+    @else {
+      $result: if($matches > 0, true, false);
+    }
+  }
+
+  @return $result;
+}
+
+/// Check if a map has a key, or a key with a specific value. Pass a single value to `$property` to check for a key only, or pass a list with two items to `$property` to check for a key and value.
+/// @param {Map} $map - Map to inspect.
+/// @param {*} $property - Key, or key and value, to look for.
+/// @returns {Boolean} `true` if the key (or key and value) was found, `false` otherwise.
+@function -ocha-check-property($map, $property) {
+  $result: null;
+
+  @if type-of($property) == 'list' {
+    $key: nth($property, 1);
+    $value: nth($property, 2);
+    $result: if(map-has-key($map, $key) and map-get($map, $key) == $value, true, false);
+  }
+  @else {
+    $result: map-has-key($map, $property);
+  }
+
+  @return $result;
+}
