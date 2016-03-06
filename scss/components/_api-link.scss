@@ -25,6 +25,7 @@
 
   @include breakpoint(medium) {
     background-size: 80px auto;
+    padding-left: 116px;
     font-size: rem-calc(28);
   }
 }
