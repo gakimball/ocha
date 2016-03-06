@@ -1,7 +1,0 @@
-@function -ocha-not($assert) {
-  @return map-merge($assert, (negative: true));
-}
-
-@function -ocha-deep($assert) {
-  @return map-merge($assert, (deep: true));
-}
