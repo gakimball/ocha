@@ -1,0 +1,12 @@
+.footer {
+  max-width: $global-width;
+  margin: 0 auto;
+  padding: 2rem 0;
+  text-align: center;
+
+  p {
+    font-size: 2rem;
+    color: $primary-color;
+    cursor: default;
+  }
+}

@@ -1,0 +1,39 @@
+.nav-backlink {
+  margin-bottom: 0;
+  line-height: 1;
+}
+
+.nav-title {
+  font-size: rem-calc(32);
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.nav {
+  list-style-type: none;
+  margin-left: 0;
+  line-height: 1.25;
+
+  > li {
+    margin-bottom: 1rem;
+  }
+
+  a {
+    color: black;
+
+    &:hover {
+      text-decoration: none;
+      color: $primary-color;
+    }
+  }
+}
+
+.nav-sub {
+  list-style-type: none;
+  line-height: 1.25;
+  margin-left: 0.5rem;
+
+  a {
+    font-weight: normal;
+  }
+}

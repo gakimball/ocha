@@ -1,0 +1,99 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocha</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/styles/kimbie.light.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/languages/scss.min.js"></script>
+    <link rel="stylesheet" href="css/app.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="header_logo"><img src="img/logo.svg" alt="Ocha"></h1>
+    </header>
+
+    <div class="github-link">
+      <a href="https://github.com/gakimball/ocha">
+        <img src="img/github.svg" alt="View on GitHub">
+      </a>
+    </div>
+
+    <div class="narrow container">
+      <section class="section">
+        <p class="lead">Ocha is a Chai-style assertion library for Sass.</p>
+
+<pre><code class="scss code-block">@function squared($n) {
+  @return $n * $n
+}
+
+@include expect(square(2) to equal 4);
+</code></pre>
+      </section>
+
+      <section class="section">
+        <h2>Overview</h2>
+
+        <p>Inspired by <a href="http://chaijs.om">Chai</a>, Ocha allows you to write expressive assertions for your Sass unit tests using a simple, fluid syntax. Nearly every function available in Chai is also in Ocha, from equality checks to inspection.</p>
+
+        <p>Ocha hooks directly into <a href="http://oddbird.net/true/">True</a>, a Sass test runner designed to integrate into popular test frameworks like <a href="http://mochajs.org/">Mocha</a> and <a href="http://jasmine.github.io/">Jasmine</a>. This means you can easily test your code in automated environments such as <a href="https://travis-ci.org/">Travis</a>.</p>
+      </section>
+
+      <section class="section">
+        <h2>Installation</h2>
+
+        <p>Ocha is on npm and Bower.</p>
+
+<pre><code class="bash code-block">npm install ocha
+bower install ocha
+</code></pre>
+      </section>
+
+      <section class="section">
+        <h2>Usage</h2>
+
+        <p>Use Ocha’s <code>expect()</code> mixin with True’s <code>test-module()</code> and <code>test()</code> mixins to write assertions. <a href="https://github.com/oddbird/true#usage">Learn more about setting up True.</a></p>
+
+<pre><code class="scss code-block">@include test-module('Number Functions') {
+  @include test('square [function]') {
+    @include expect(square(2) to equal 4);
+  }
+}</code></pre>
+
+        <a href="api.html" class="api-link">
+          View Full API &rarr;
+          <small>26 assertion functions!</small>
+        </a>
+      </section>
+
+      <section class="section">
+        <h2>Contribute</h2>
+
+        <p>Ocha is open source and hosted on <a href="https://github.com/gakimball/ocha">GitHub</a>. Feel free to <a href="https://github.com/gakimball/ocha/issues">open an issue</a> with any bugs you run into, or <a href="https://github.com/gakimball/ocha/pulls">submit a pull request</a> to contribute to the codebase yourself.</p>
+      </section>
+
+      <section class="section">
+        <h2>Etymology</h2>
+
+        <img src="img/kanji.svg" alt="Japanese Kanji for tea." class="kanji">
+
+        <p>The Japanese word for tea, <i>ocha</i> (pronounced "oh-chya"), comes from one Chinese pronunciation of the word, <i>chá</i>. And indeed, the Persian word <i>chai</i> is dervied from this as well.</p>
+
+        <p>The Kanji used is also dervied from the Chinese character. It's comprised of three radicals: a <i>person</i> (人) harvests <i>leaves</i> (艹) from a <i>plant</i> (木). The symbol 朩 is used in place of 木.</p>
+      </section>
+
+      <section class="section">
+        <h2>Colophon</h2>
+
+        <p>Ocha was created by <a href="http://geoffkimball.com">Geoff Kimball</a>, a front-end developer and designer. Other Sass-ey things I've worked on include <a href="https://github.com/zurb/foundation-sites">Foundation</a>, <a href="https://github.com/zurb/motion-ui">Motion UI</a>, and <a href="https://github.com/gakimball/responsive-modular-scale">Responsive Modular Scale</a>. And yes, I did just switch from first- to third-person mid-paragraph.</p>
+      </section>
+    </div>
+
+    <footer class="footer">
+      <p>&hearts;</p>
+    </footer>
+  </body>
+</html>

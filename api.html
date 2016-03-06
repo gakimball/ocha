@@ -1,0 +1,442 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocha | API</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/styles/kimbie.light.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/languages/scss.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+    <link rel="stylesheet" href="css/app.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+  <body class="api-page">
+    <header class="header">
+      <h1 class="header_logo">
+        <a href="index.html">
+          <img src="img/logo.svg" alt="Ocha">
+        </a>
+      </h1>
+    </header>
+
+    <div class="github-link">
+      <a href="https://github.com/gakimball/ocha">
+        <img src="img/github.svg" alt="View on GitHub">
+      </a>
+    </div>
+
+    <div class="container">
+      <div class="container-sidebar" data-sticky>
+        <p class="nav-backlink"><a href="index.html">&larr; Go Home</a></p>
+
+        <p class="nav-title">API</p>
+        <ul class="nav">
+          <li><a href="#expect-">expect()</a></li>
+          <li><a href="#language-chains">Language Chains</a></li>
+          <li>
+            <a href="#flags">Flags</a>
+            <ul class="nav-sub">
+              <li><a href="#not">not</a></li>
+              <li><a href="#deep">deep</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#comparison">Comparison</a>
+            <ul class="nav-sub">
+              <li><a href="#equal-value-">equal</a></li>
+              <li><a href="#eql-map-">eql</a></li>
+              <li><a href="#above-floor-">above</a></li>
+              <li><a href="#below-ceiling-">below</a></li>
+              <li><a href="#least-floor-">least</a></li>
+              <li><a href="#most-floor-">most</a></li>
+              <li><a href="#within-floor-ceiling-">within</a></li>
+              <li><a href="#closeto-base-range-">closeTo</a></li>
+              <li><a href="#oneof-list-">oneOf</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#type-comparison">Type Comparison</a>
+            <ul class="nav-sub">
+              <li><a href="#a-type-">a</a></li>
+              <li><a href="#ok">ok</a></li>
+              <li><a href="#true">true</a></li>
+              <li><a href="#false">false</a></li>
+              <li><a href="#null">null</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#inspection">Inspection</a>
+            <ul class="nav-sub">
+              <li><a href="#lengthof-length-">lengthOf</a></li>
+              <li><a href="#length">length</a></li>
+              <li><a href="#empty">empty</a></li>
+              <li><a href="#string-substring-">string</a></li>
+              <li><a href="#contain-needle-">contain</a></li>
+              <li><a href="#include-property-value">include</a></li>
+              <li><a href="#keys-keys-">keys</a></li>
+              <li><a href="#members-list-">members</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="container-main">
+        <section class="section" data-marked>
+## expect()
+
+Use the `expect()` mixin to write an assertion. Pass a value to check, and then a series of language functions. Most assertions also require a final value to compare with.
+
+```scss
+@import 'true';
+@import 'ocha';
+
+@include test-module('Test Module') {
+  @include test('Test') {
+    $value: 5;
+    @include expect($value to equal 5);
+  }
+}
+```
+
+## Language Chains
+
+These functions don't do anything&mdash;they just make your assertion more readable.
+
+- `to`
+- `be`
+- `been`
+- `is`
+- `which`
+- `and`
+- `has`
+- `have`
+- `with`
+- `at`
+- `of`
+- `same`
+
+## Flags
+
+### not
+
+Throw the word `not` in an assertion to check for the opposite result.
+
+Note that, since `not` is a special keyword in Sass, you have to put it in quotes.
+
+```scss
+@include expect(5 to 'not' equal 6);
+```
+
+### deep
+
+Pair with `equal` or `property` to fully check the contents of a map.
+
+```scss
+$map: (
+  cats: ( dogs: true ),
+  kittens: false,
+);
+
+@include expect($map to have deep property 'cats.dogs');
+
+@include expect($map to deep equal $map);
+```
+
+## Comparison
+
+### equal($value)
+
+Check if a value equals `$value`.
+
+```scss
+@include expect(5 to equal 5);
+@include expect('string' to equal 'string');
+```
+
+Add the `deep` flag to check if the contents of an entire map are identical.
+
+```scss
+$map: (
+  cats: ( dogs: true ),
+  kittens: false,
+);
+
+@include expect($map to deep equal $map);
+```
+
+### eql($map)
+
+Check if two maps are identical in structure. This is the same as `deep equal`.
+
+```scss
+$map: (
+  cats: ( dogs: true ),
+  kittens: false,
+);
+
+@include expect($map to eql $map);
+```
+
+### above($floor)
+
+Check if a value is *greater than* `$floor`.
+
+```scss
+@include expect(5 to be above 3);
+```
+
+### least($floor)
+
+Check if a value is *greater than or equal to* `$floor`.
+
+```scss
+@include expect(5 to be at least 5);
+@include expect(10 to be at least 5);
+```
+
+### below($floor)
+
+Check if a value is *less than* `$floor`.
+
+```scss
+@include expect(5 to be below 3);
+```
+
+### most($floor)
+
+Check if a value is *less than or equal to* `$floor`.
+
+```scss
+@include expect(5 to be at most 5);
+@include expect(10 to be at most 5);
+```
+
+### within($floor, $ceiling)
+
+Check if a value is within the range of `$floor` and `$ceiling` (including those values).
+
+```scss
+@include expect(5 to be within (0, 10));
+```
+
+### closeTo($base, $range)
+
+Check if a value is equal to `$base`, plus or minus `$range`.
+
+```scss
+// Can be between 2 and 8
+@include expect(7 to be closeTo (5, 3));
+```
+
+### oneOf($list)
+
+Check if a value is one of the items in `$list`.
+
+```scss
+@include expect(1 to be oneOf (1, 2, 3));
+@include expect(5 to be oneOf (1, 2, 3));
+```
+
+## Type Comparison
+
+### a($type)
+
+Check if a value has the type of `$type`.
+
+```scss
+@include expect(5 to be a number);
+@include expect('string' to be a string);
+@include expect(#fff to be a color);
+@include expect((0, 1, 2) to be a list);
+```
+
+### ok
+
+Check if a value is truthy:
+
+- `true`
+- A list or map that isn't empty
+- A number greater than 0
+
+```scss
+@include expect(true to be ok);
+```
+
+### true
+
+Check if a value is `true`. Note that this function has to be used with quotes around it, because it's a special keyword in Sass.
+
+```scss
+@include expect(true to be 'true');
+```
+
+### false
+
+Check if a value is `false`. Note that this function has to be used with quotes around it, because it's a special keyword in Sass.
+
+```scss
+@include expect(false to be 'false');
+```
+
+### null
+
+Check if a value is `null`. Note that this function has to be used with quotes around it, because it's a special keyword in Sass.
+
+```scss
+@include expect(null to be 'null');
+```
+
+## Inspection
+
+### lengthOf($length)
+
+Check if a list has a length equal to `$length`.
+
+```scss
+$list: (0, 1, 2);
+@include expect($list to have lengthOf 3);
+```
+
+### length
+
+Check if a list has a length that satisfies a certain criteria. Pair it with `above`, `least`, `below`, `most`, or `within`.
+
+```scss
+$list: (0, 1, 2);
+@include expect($list to have length above 1);
+@include expect($list to have length below 4);
+@include expect($list to have length within (0, 5));
+```
+
+### empty
+
+Check if a list has a length of 0.
+
+```scss
+$list: ();
+@include expect($list to be empty);
+```
+
+### string($substring)
+
+Check if a string contains `$substring`.
+
+```scss
+@include expect('string' to have string 'str');
+```
+
+### contain($needle)
+
+Check if a string contains `$needle`, or check if a list contains `$needle`.
+
+```scss
+@include expect('string' to contain 'str');
+@include expect((one, two) to contain 'one');
+```
+
+### include($needle)
+
+Check if a string contains `$needle`, or check if a list contains `$needle`.
+
+```scss
+@include expect('string' to include 'str');
+@include expect((one, two) to include 'one');
+```
+
+### property($property, $value)
+
+Check if a map contains property `$property`, or if a list has an item at the index of `$property`. Optionally, you can check if that property also contains `$value`.
+
+```scss
+$map: (
+  'kittens': 10,
+  'puppies': 6,
+  'otters': 4,
+);
+
+@include expect($map to have property 'kittens');
+@include expect($map to have property ('puppies', 6));
+```
+
+Add the `deep` flag to check for a deep property within a map or list. Each map key or list index is separated by a dot.
+
+```scss
+$map: (
+  'kittens': 10,
+  'puppies': 6,
+  'otters': 4,
+  'other': (
+    'bunnies': 1,
+    'ocelots': 2,
+    'evenMore': ('birds', 'penguins', 'turkeys'),
+  ),
+);
+
+@include expect($map to have property 'other.bunnies');
+@include expect($map to have property ('other.bunnies', 2));
+@include expect($map to have property ('other.evenMore.2', 'penguins'));
+```
+
+### keys($keys)
+
+If you call `keys` by itself, check if a map contains *every key* within `$keys` and *no other keys*.
+
+```scss
+$map: (
+  one: 'one',
+  two: 'two',
+);
+
+@include expect($map to have keys (one, two));
+```
+
+If you call `contain keys`, check if a map contains *every key* within `$keys`. If the map has other keys, that's fine.
+
+```scss
+$map: (
+  one: 'one',
+  two: 'two',
+);
+
+@include expect($map to have keys (one));
+```
+
+If you call `any keys`, check if a map contains *any key* within `$keys`.
+
+```scss
+$map: (
+  one: 'one',
+  two: 'two',
+);
+
+@include expect($map to have keys (one, two, three, four));
+```
+
+### members($list)
+
+Check if the input list is a superset of `$list`, or that the input list is identical to `$list`;
+
+```scss
+$list: (0, 1, 2,);
+
+@include expect($list to have members (0, 1,)); // => true
+@include expect($list to have members (0, 1, 2,)); // => true
+@include expect($list to have members (0, 3, 5,)); // => false
+```
+        </section>
+
+        <footer class="footer">
+          <p>&hearts;</p>
+        </footer>
+      </div>
+    </div>
+
+    <script>
+      (function() {
+        var container = document.querySelector('[data-marked]');
+        container.innerHTML = marked(container.innerHTML);
+      })();
+    </script>
+  </body>
+</html>

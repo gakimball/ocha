@@ -1,0 +1,11 @@
+.header {
+  @include grid-column-row;
+  padding-top: 2.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 16px solid $primary-color;
+  margin-bottom: 3rem;
+}
+
+.header_logo {
+  text-align: center;
+}

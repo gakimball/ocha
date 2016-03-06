@@ -1,0 +1,31 @@
+.api-page {
+  padding-top: 146px;
+
+  .header {
+    @include horizontal-center;
+    top: 0;
+    position: fixed;
+    background: $body-background;
+    padding-top: 1rem;
+  }
+
+  .header_logo {
+    width: 200px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .github-link {
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
+
+  .container-sidebar {
+    position: fixed;
+    top: 130px;
+    width: calc(800px * 0.25);
+    max-height: calc(100vh - 130px);
+    overflow: auto;
+  }
+}

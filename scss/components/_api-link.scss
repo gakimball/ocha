@@ -1,0 +1,25 @@
+.api-link {
+  display: block;
+  padding: 1.25rem 1rem;
+  border-radius: 8px;
+  background: #F7F7F7 url('../img/cup.svg') 16px center no-repeat;
+  background-size: 80px auto;
+  font-size: rem-calc(28);
+  color: $primary-color;
+  border: 1px solid #FF9191;
+  padding-left: 116px;
+  line-height: 1;
+
+  &:hover {
+    background-color: $code-background;
+    text-decoration: none;
+  }
+
+  small {
+    display: block;
+    font-size: rem-calc(16);
+    color: #777;
+    margin-top: 0.5rem;
+    font-weight: normal;
+  }
+}

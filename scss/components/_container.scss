@@ -1,0 +1,32 @@
+.container {
+  @include grid-row;
+  max-width: 800px;
+
+  &.narrow {
+    max-width: $global-width / 2;
+  }
+}
+
+.container-sidebar {
+  @include grid-col;
+
+  @include breakpoint(medium) {
+    @include grid-col-size(4);
+  }
+
+  @include breakpoint(large) {
+    @include grid-col-size(3);
+  }
+}
+
+.container-main {
+  @include grid-col;
+
+  @include breakpoint(medium) {
+    @include grid-col-size(8);
+  }
+
+  @include breakpoint(large) {
+    @include grid-col-size(9);
+  }
+}
