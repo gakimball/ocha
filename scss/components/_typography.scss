@@ -9,7 +9,12 @@ a {
 }
 
 .lead {
-  font-size: rem-calc(32);
-  line-height: 40px;
+  font-size: rem-calc(26);
+  line-height: 30px;
   font-weight: bold;
+
+  @include breakpoint(medium) {
+    font-size: rem-calc(32);
+    line-height: 40px;
+  }
 }

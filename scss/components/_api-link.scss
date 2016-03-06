@@ -3,11 +3,11 @@
   padding: 1.25rem 1rem;
   border-radius: 8px;
   background: #F7F7F7 url('../img/cup.svg') 16px center no-repeat;
-  background-size: 80px auto;
-  font-size: rem-calc(28);
+  background-size: 60px auto;
+  font-size: rem-calc(20);
   color: $primary-color;
   border: 1px solid #FF9191;
-  padding-left: 116px;
+  padding-left: 96px;
   line-height: 1;
 
   &:hover {
@@ -21,5 +21,10 @@
     color: #777;
     margin-top: 0.5rem;
     font-weight: normal;
+  }
+
+  @include breakpoint(medium) {
+    background-size: 80px auto;
+    font-size: rem-calc(28);
   }
 }

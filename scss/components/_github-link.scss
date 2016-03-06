@@ -9,6 +9,12 @@
   border-bottom-left-radius: 8px;
   overflow: hidden;
 
+  display: none;
+
+  @include breakpoint(medium) {
+    display: block;
+  }
+
   &:hover {
     background: #aaa3a3;
   }

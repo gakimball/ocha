@@ -725,20 +725,24 @@ a {
   font-weight: bold; }
 
 .lead {
-  font-size: 2rem;
-  line-height: 40px;
+  font-size: 1.625rem;
+  line-height: 30px;
   font-weight: bold; }
+  @media screen and (min-width: 40em) {
+    .lead {
+      font-size: 2rem;
+      line-height: 40px; } }
 
 .api-link {
   display: block;
   padding: 1.25rem 1rem;
   border-radius: 8px;
   background: #F7F7F7 url("../img/cup.svg") 16px center no-repeat;
-  background-size: 80px auto;
-  font-size: 1.75rem;
+  background-size: 60px auto;
+  font-size: 1.25rem;
   color: red;
   border: 1px solid #FF9191;
-  padding-left: 116px;
+  padding-left: 96px;
   line-height: 1; }
   .api-link:hover {
     background-color: #FFF2F2;
@@ -749,6 +753,10 @@ a {
     color: #777;
     margin-top: 0.5rem;
     font-weight: normal; }
+  @media screen and (min-width: 40em) {
+    .api-link {
+      background-size: 80px auto;
+      font-size: 1.75rem; } }
 
 .hljs {
   border-radius: 8px;
@@ -756,7 +764,11 @@ a {
   padding: 1rem;
   font-weight: bold;
   background: #FFF2F2;
-  margin-bottom: 1rem; }
+  margin-bottom: 1rem;
+  font-size: 0.875rem; }
+  @media screen and (min-width: 40em) {
+    .hljs {
+      font-size: 1rem; } }
 
 .container {
   max-width: 60rem;
@@ -775,7 +787,9 @@ a {
   .container::after {
     clear: both; }
   .container.narrow {
-    max-width: 30rem; }
+    max-width: 30rem;
+    padding-left: 15px;
+    padding-right: 15px; }
 
 .container-sidebar {
   width: 100%;
@@ -824,7 +838,11 @@ a {
   background: #8b8b8b;
   transition: background 0.05s linear;
   border-bottom-left-radius: 8px;
-  overflow: hidden; }
+  overflow: hidden;
+  display: none; }
+  @media screen and (min-width: 40em) {
+    .github-link {
+      display: block; } }
   .github-link:hover {
     background: #aaa3a3; }
   .github-link a::before {
@@ -855,10 +873,10 @@ a {
   float: left;
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
-  padding-top: 2.5rem;
+  padding-top: 1rem;
   padding-bottom: 1rem;
   border-bottom: 16px solid red;
-  margin-bottom: 3rem; }
+  margin-bottom: 1.5rem; }
   .header::before, .header::after {
     content: ' ';
     display: table;
@@ -874,9 +892,19 @@ a {
     float: right; }
   .header, .header:last-child {
     float: none; }
+  @media screen and (min-width: 40em) {
+    .header {
+      padding-top: 2.5rem;
+      margin-bottom: 3rem; } }
 
 .header_logo {
-  text-align: center; }
+  text-align: center;
+  width: 200px;
+  display: block;
+  margin: 0 auto; }
+  @media screen and (min-width: 40em) {
+    .header_logo {
+      width: 328px; } }
 
 .nav-backlink {
   margin-bottom: 0;
@@ -907,36 +935,47 @@ a {
     font-weight: normal; }
 
 .section {
-  margin-bottom: 2rem; }
+  margin-bottom: 1rem; }
+  @media screen and (min-width: 40em) {
+    .section {
+      margin-bottom: 2rem; } }
 
 .kanji {
   float: right;
   width: 120px;
   margin: 0 0 1rem 1rem; }
 
-.api-page {
-  padding-top: 146px; }
-  .api-page .header {
-    position: absolute;
-    left: 50%;
-    -webkit-transform: translateX(-50%);
-        -ms-transform: translateX(-50%);
-            transform: translateX(-50%);
-    top: 0;
-    position: fixed;
-    background: #f9f9f9;
-    padding-top: 1rem; }
-  .api-page .header_logo {
-    width: 200px;
-    display: block;
-    margin: 0 auto; }
-  .api-page .github-link {
-    position: fixed;
-    top: 0;
-    right: 0; }
-  .api-page .container-sidebar {
-    position: fixed;
-    top: 130px;
-    width: calc(800px * 0.25);
-    max-height: calc(100vh - 130px);
-    overflow: auto; }
+@media screen and (max-width: 39.9375em) {
+  .api-page .nav-title,
+  .api-page .nav {
+    display: none; }
+  .api-page .nav-backlink {
+    margin-bottom: 1rem; } }
+
+@media screen and (min-width: 40em) {
+  .api-page {
+    padding-top: 146px; }
+    .api-page .header {
+      position: absolute;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+          -ms-transform: translateX(-50%);
+              transform: translateX(-50%);
+      top: 0;
+      position: fixed;
+      background: #f9f9f9;
+      padding-top: 1rem; }
+    .api-page .header_logo {
+      width: 200px;
+      display: block;
+      margin: 0 auto; }
+    .api-page .github-link {
+      position: fixed;
+      top: 0;
+      right: 0; }
+    .api-page .container-sidebar {
+      position: fixed;
+      top: 130px;
+      width: calc(800px * 0.25);
+      max-height: calc(100vh - 130px);
+      overflow: auto; } }
